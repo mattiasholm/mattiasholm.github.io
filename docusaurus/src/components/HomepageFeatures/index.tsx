@@ -28,7 +28,7 @@ const FeatureList: FeatureItem[] = [
   //   ),
   // },
   // {
-  //   title: 'Code',
+  //   title: 'Lyrics',
   //   Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
   //   description: (
   //     <>

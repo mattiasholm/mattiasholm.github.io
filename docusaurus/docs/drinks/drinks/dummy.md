@@ -1,4 +1,0 @@
-# Dummy
-
-## Heading
-Hej hej

@@ -26,10 +26,7 @@ const config: Config = {
       'classic',
       {
         docs: {
-          id: 'drinks',
-          path: 'docs/drinks',
           routeBasePath: '/',
-          sidebarCollapsible: false,
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -38,22 +35,9 @@ const config: Config = {
     ],
   ],
 
-  // plugins: [
-  //   [
-  //     '@docusaurus/plugin-content-docs',
-  //     {
-  //       id: 'drinks',
-  //       path: 'docs/drinks',
-  //       routeBasePath: '/',
-  //       sidebarCollapsible: false,
-  //     },
-  //   ],
-  // ],
-
   themeConfig: {
     docs: {
       sidebar: {
-        hideable: true,
         autoCollapseCategories: true,
       },
     },
@@ -68,11 +52,14 @@ const config: Config = {
           to: '/drinks/',
           // type: 'docSidebar',
           // sidebarId: 'defaultSidebar',
+          // sidebarId: 'drinks',
         },
-        // {
-        //   label: 'Tunes',
-        //   to: '/tunes/',
-        // },
+        {
+          label: 'Tunes',
+          to: '/tunes/',
+          // type: 'docSidebar',
+          // sidebarId: 'tunes',
+        },
         // {
         //   label: 'Code',
         //   to: '/code/',
