@@ -35,9 +35,6 @@ jobs:
           repository: mattiasholm/drinks
           path: drinks
 
-      - name: Debug
-        uses: mxschmitt/action-tmate@v3
-
       - name: Copy files (drinks)
         run: cp -r drinks/drinks/* docusaurus/docs/drinks
         working-directory: .
