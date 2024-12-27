@@ -1,22 +1,15 @@
 name: Docusaurus
 
 on:
+  # schedule:
+  #   - cron: 0 0 * * *
+
   push:
     branches:
       - main
     paths:
       - .github/workflows/docusaurus.yml
       - docusaurus/**
-      - drinks/**
-      - "!**.gitignore"
-
-  pull_request:
-    branches:
-      - main
-    paths:
-      - .github/workflows/docusaurus.yml
-      - docusaurus/**
-      - drinks/**
       - "!**.gitignore"
 
   workflow_dispatch:

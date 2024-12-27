@@ -13,13 +13,13 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className='container'>
         <Heading as='h1' className='hero__title'>
-          {siteConfig.title} 🍸
+          {siteConfig.title} 🍸🎻 💻
         </Heading>
         <p className='hero__subtitle'>{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
             className='button button--secondary button--lg'
-            to='/Airmail'> {/* Temporarily hardcoded, grab first or RANDOM filename dynamically instead VS built in API to link to docSidebar! */}
+            to='/drinks/'>
             Discover
           </Link>
         </div>

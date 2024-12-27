@@ -3,13 +3,13 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Drinks',
-  tagline: 'A collection of cocktails by a hobby mixologist',
+  title: 'Mattias Holm',
+  tagline: 'A small website for my hobbies',
   favicon: 'img/favicon.ico',
 
   url: 'https://mattiasholm.github.io',
   baseUrl: '/',
-  trailingSlash: false,
+  // trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -24,8 +24,10 @@ const config: Config = {
       'classic',
       {
         docs: {
-          path: 'drinks',
+          id: 'drinks',
+          path: 'docs/drinks',
           routeBasePath: '/',
+          // sidebarCollapsible: false,
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -35,6 +37,12 @@ const config: Config = {
   ],
 
   themeConfig: {
+    docs: {
+      sidebar: {
+        hideable: true,
+        autoCollapseCategories: true,
+      },
+    },
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: true,
@@ -46,12 +54,21 @@ const config: Config = {
       items: [
         {
           label: 'Drinks',
-          type: 'docSidebar',
-          sidebarId: 'defaultSidebar',
+          to: '/drinks/',
+          // type: 'docSidebar',
+          // sidebarId: 'defaultSidebar',
         },
+        // {
+        //   label: 'Tunes',
+        //   to: '/tunes/',
+        // },
+        // {
+        //   label: 'Lyrics',
+        //   to: '/lyrics/',
+        // },
         {
           label: 'GitHub',
-          href: 'https://github.com/mattiasholm/drinks',
+          href: 'https://github.com/mattiasholm',
           position: 'right',
         },
       ],
