@@ -27,6 +27,7 @@ const config: Config = {
       {
         docs: {
           routeBasePath: '/',
+          // sidebarPath: './sidebars.ts',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -51,15 +52,14 @@ const config: Config = {
           label: 'Drinks',
           to: '/drinks/',
           // type: 'docSidebar',
-          // sidebarId: 'defaultSidebar',
           // sidebarId: 'drinks',
         },
-        {
-          label: 'Tunes',
-          to: '/tunes/',
-          // type: 'docSidebar',
-          // sidebarId: 'tunes',
-        },
+        // {
+        //   label: 'Tunes',
+        //   to: '/tunes/',
+        //   // type: 'docSidebar',
+        //   // sidebarId: 'tunes',
+        // },
         // {
         //   label: 'Code',
         //   to: '/code/',
