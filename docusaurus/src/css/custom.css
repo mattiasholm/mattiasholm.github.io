@@ -1,8 +1,6 @@
 :root {
   --ifm-color-primary: #ff5a5a;
-  /* --ifm-color-primary: turquoise; */
   --background-color: #2e2e2e;
-  /* --background-color: turquoise; */
 }
 
 [data-theme='dark'] .navbar {
@@ -12,12 +10,10 @@
 .hero {
   --ifm-hero-background-color: var(--background-color);
   --ifm-hero-text-color: white;
-  /* --ifm-hero-text-color: black; */
 }
 
 .footer {
   --ifm-footer-background-color: var(--background-color);
-  /* --ifm-footer-color: black; */
 }
 
 .DocCardList .card p {

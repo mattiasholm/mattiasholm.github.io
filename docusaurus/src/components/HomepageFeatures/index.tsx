@@ -8,34 +8,40 @@ type FeatureItem = {
   description: JSX.Element;
 };
 
+const Svg = () => (
+  <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg">
+    <rect width="10" height="10" fill="var(--ifm-background-color)" />
+  </svg>
+);
+
 const FeatureList: FeatureItem[] = [
-  // {
-  //   title: 'Drinks',
-  //   Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-  //   description: (
-  //     <>
-  //       A collection of cocktails by a hobby mixologist
-  //     </>
-  //   ),
-  // },
-  // {
-  //   title: 'Tunes',
-  //   Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-  //   description: (
-  //     <>
-  //       A collection of traditional Irish tunes in ABC notation
-  //     </>
-  //   ),
-  // },
-  // {
-  //   title: 'Lyrics',
-  //   Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-  //   description: (
-  //     <>
-  //       A collection of lyrics written in various bands and projects
-  //     </>
-  //   ),
-  // },
+  {
+    title: 'Drinks',
+    Svg: Svg,
+    description: (
+      <>
+        A collection of cocktails by a hobby mixologist
+      </>
+    ),
+  },
+  {
+    title: 'Tunes',
+    Svg: Svg,
+    description: (
+      <>
+        A collection of traditional Irish tunes in ABC notation
+      </>
+    ),
+  },
+  {
+    title: 'Lyrics',
+    Svg: Svg,
+    description: (
+      <>
+        A collection of lyrics written in various bands and projects
+      </>
+    ),
+  },
 ];
 
 function Feature({ title, Svg, description }: FeatureItem) {

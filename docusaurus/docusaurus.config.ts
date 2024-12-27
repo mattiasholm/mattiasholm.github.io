@@ -54,12 +54,12 @@ const config: Config = {
           // type: 'docSidebar',
           // sidebarId: 'drinks',
         },
-        // {
-        //   label: 'Tunes',
-        //   to: '/tunes/',
-        //   // type: 'docSidebar',
-        //   // sidebarId: 'tunes',
-        // },
+        {
+          label: 'Tunes',
+          to: '/tunes/',
+          // type: 'docSidebar',
+          // sidebarId: 'tunes',
+        },
         // {
         //   label: 'Code',
         //   to: '/code/',
@@ -70,7 +70,7 @@ const config: Config = {
         // },
         {
           label: 'GitHub',
-          href: 'https://github.com/mattiasholm',
+          href: 'https://github.com/mattiasholm/mattiasholm.github.io',
           position: 'right',
         },
       ],
