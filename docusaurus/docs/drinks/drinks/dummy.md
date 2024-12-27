@@ -1,6 +1,4 @@
 # Dummy
 
-## Test
-asdifadsiadfsihsadfhkhkjadsf
-asdfhjkadsfhjk
-adsfhj
+## Heading
+Hej hej

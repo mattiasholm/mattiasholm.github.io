@@ -2,6 +2,8 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+const emojis = '🍸🎻 💻';
+
 const config: Config = {
   title: 'Mattias Holm',
   tagline: 'A small website for my hobbies',
@@ -9,7 +11,7 @@ const config: Config = {
 
   url: 'https://mattiasholm.github.io',
   baseUrl: '/',
-  // trailingSlash: false,
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -27,7 +29,7 @@ const config: Config = {
           id: 'drinks',
           path: 'docs/drinks',
           routeBasePath: '/',
-          // sidebarCollapsible: false,
+          sidebarCollapsible: false,
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -35,6 +37,18 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
+
+  // plugins: [
+  //   [
+  //     '@docusaurus/plugin-content-docs',
+  //     {
+  //       id: 'drinks',
+  //       path: 'docs/drinks',
+  //       routeBasePath: '/',
+  //       sidebarCollapsible: false,
+  //     },
+  //   ],
+  // ],
 
   themeConfig: {
     docs: {
@@ -45,12 +59,9 @@ const config: Config = {
     },
     colorMode: {
       defaultMode: 'dark',
-      disableSwitch: true,
     },
     navbar: {
-      logo: {
-        src: 'img/logo.svg',
-      },
+      title: emojis,
       items: [
         {
           label: 'Drinks',
@@ -61,6 +72,10 @@ const config: Config = {
         // {
         //   label: 'Tunes',
         //   to: '/tunes/',
+        // },
+        // {
+        //   label: 'Code',
+        //   to: '/code/',
         // },
         // {
         //   label: 'Lyrics',
@@ -82,6 +97,9 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
+  customFields: {
+    emojis: emojis,
+  },
 };
 
 export default config;
