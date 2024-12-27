@@ -39,7 +39,7 @@ jobs:
         uses: mxschmitt/action-tmate@v3
 
       - name: Copy files (drinks)
-        run: cp -r drinks/* docusaurus/docs/drinks
+        run: cp -r drinks/drinks/* docusaurus/docs/drinks
         working-directory: .
 
       - name: Cache node modules
