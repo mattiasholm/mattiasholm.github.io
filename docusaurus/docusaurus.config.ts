@@ -24,7 +24,7 @@ const config: Config = {
       'classic',
       {
         docs: {
-          path: '../drinks',
+          path: 'drinks',
           routeBasePath: '/',
         },
         theme: {
