@@ -1,0 +1,81 @@
+name: Docusaurus
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/docusaurus.yml
+      - docusaurus/**
+      - drinks/**
+      - "!**.gitignore"
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/docusaurus.yml
+      - docusaurus/**
+      - drinks/**
+      - "!**.gitignore"
+
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: docusaurus
+
+env:
+  path: docusaurus
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate drinks
+        run: ./validate.py
+        working-directory: scripts
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.path }}/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles(format('{0}/package-lock.json', env.path)) }}
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run build
+        run: npm run build
+
+      - name: Upload artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.path }}/build
+
+  release:
+    name: Release
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+      url: ${{ steps.deploy.outputs.page_url }}
+    permissions:
+      id-token: write
+      pages: write
+
+    steps:
+      - name: Deploy site
+        id: deploy
+        uses: actions/deploy-pages@v4
