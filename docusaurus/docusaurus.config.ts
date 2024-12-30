@@ -47,6 +47,7 @@ const config: Config = {
     },
     navbar: {
       title: emojis,
+      hideOnScroll: true,
       items: [
         {
           label: 'Drinks',
@@ -61,9 +62,9 @@ const config: Config = {
           to: '/dives',
         },
         {
-          label: 'GitHub',
           href: 'https://github.com/mattiasholm/mattiasholm.github.io',
           position: 'right',
+          className: 'header-github-link',
         },
       ],
     },
