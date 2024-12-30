@@ -2,15 +2,11 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
-const emojis = '🍸 🎻';
-// const emojis = '🍸🎻 💻';
-// const emojis = '🍸🎻 🎙️';
-// const emojis = '🍸🎻 📜';
+const emojis = '🍸🎻 🤿';
 
 const config: Config = {
   title: 'Mattias Holm',
-  tagline: 'A small website for my hobbies',
-  // tagline: 'A website dedicated to my hobbies',
+  tagline: 'A website dedicated to my hobbies',
   favicon: 'img/favicon.ico',
 
   url: 'https://mattiasholm.github.io',
@@ -64,14 +60,12 @@ const config: Config = {
           // type: 'docSidebar',
           // sidebarId: 'tunes',
         },
-        // {
-        //   label: 'Code',
-        //   to: '/code/',
-        // },
-        // {
-        //   label: 'Lyrics',
-        //   to: '/lyrics/',
-        // },
+        {
+          label: 'Dives',
+          to: '/dives/',
+          // type: 'docSidebar',
+          // sidebarId: 'dives',
+        },
         {
           label: 'GitHub',
           href: 'https://github.com/mattiasholm/mattiasholm.github.io',

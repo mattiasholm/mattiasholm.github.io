@@ -1,4 +1,4 @@
-// import clsx from 'clsx';
+import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
@@ -9,9 +9,7 @@ type FeatureItem = {
 };
 
 const Svg = () => (
-  <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg">
-    <rect width="10" height="10" fill="var(--ifm-background-color)" />
-  </svg>
+  <svg height='0' />
 );
 
 const FeatureList: FeatureItem[] = [
@@ -33,48 +31,20 @@ const FeatureList: FeatureItem[] = [
       </>
     ),
   },
-  // {
-  //   title: 'Lyrics',
-  //   Svg: Svg,
-  //   description: (
-  //     <>
-  //       A collection of lyrics written in various bands and projects
-  //     </>
-  //   ),
-  // },
+  {
+    title: 'Dives',
+    Svg: Svg,
+    description: (
+      <>
+        A collection of scuba dives from around the world
+      </>
+    ),
+  },
 ];
-
-// function Feature({ title, Svg, description }: FeatureItem) {
-//   return (
-//     <div className={clsx('col col--4')}>
-//       <div className='text--center'>
-//         <Svg className={styles.featureSvg} role='img' />
-//       </div>
-//       <div className='text--center padding-horiz--md'>
-//         <Heading as='h3'>{title}</Heading>
-//         <p>{description}</p>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default function HomepageFeatures(): JSX.Element {
-//   return (
-//     <section className={styles.features}>
-//       <div className='container'>
-//         <div className='row'>
-//           {FeatureList.map((props, idx) => (
-//             <Feature key={idx} {...props} />
-//           ))}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
 
 function Feature({ title, Svg, description }: FeatureItem) {
   return (
-    <div className='col col--6'>
+    <div className={clsx('col col--4')}>
       <div className='text--center'>
         <Svg className={styles.featureSvg} role='img' />
       </div>

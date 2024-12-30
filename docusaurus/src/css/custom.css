@@ -3,7 +3,7 @@
   --background-color: #2e2e2e;
 }
 
-[data-theme='dark'] .navbar {
+.navbar {
   --ifm-navbar-background-color: var(--ifm-background-color);
 }
 
@@ -22,4 +22,29 @@
 
 .DocCardList .card h2 {
   margin-bottom: 0;
+}
+
+.statBox {
+  background-color: var(--background-color);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  width: 150px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.statBox .label {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.statBox .value {
+  color: var(--ifm-color-primary);
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
 }
