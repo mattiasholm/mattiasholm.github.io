@@ -16,6 +16,10 @@
   --ifm-footer-background-color: var(--background-color);
 }
 
+.hidden {
+  display: none;
+}
+
 .DocCardList .card p {
   display: none;
 }
@@ -36,13 +40,13 @@
   justify-content: center;
 }
 
-.statBox .label {
+.label {
   color: white;
   font-size: 18px;
   font-weight: bold;
 }
 
-.statBox .value {
+.value {
   color: var(--ifm-color-primary);
   font-size: 18px;
   font-weight: bold;
