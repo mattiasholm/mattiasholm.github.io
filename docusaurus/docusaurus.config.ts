@@ -50,18 +50,15 @@ const config: Config = {
       items: [
         {
           label: 'Drinks',
-          type: 'docSidebar',
-          sidebarId: 'drinks',
+          to: '/drinks',
         },
         {
           label: 'Tunes',
-          type: 'docSidebar',
-          sidebarId: 'tunes',
+          to: '/tunes',
         },
         {
           label: 'Dives',
-          type: 'docSidebar',
-          sidebarId: 'dives',
+          to: '/dives',
         },
         {
           label: 'GitHub',
