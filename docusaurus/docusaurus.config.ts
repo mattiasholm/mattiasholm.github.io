@@ -64,7 +64,7 @@ const config: Config = {
         {
           href: 'https://github.com/mattiasholm/mattiasholm.github.io',
           position: 'right',
-          className: 'header-github-link',
+          className: 'github',
         },
       ],
     },
