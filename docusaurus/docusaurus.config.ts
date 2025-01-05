@@ -70,7 +70,7 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      copyright: `Copyright © ${new Date().getFullYear()} Mattias Holm`,
+      copyright: `Copyright © ${new Date().getFullYear()} <a href='https://github.com/mattiasholm' target='_blank'>Mattias Holm</a>`,
     },
     prism: {
       theme: prismThemes.github,
