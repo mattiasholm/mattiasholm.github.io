@@ -3,6 +3,10 @@
   --background-color: #2e2e2e;
 }
 
+.navbar__brand:hover {
+  opacity: 0.5;
+}
+
 [data-theme='dark'] .navbar {
   --ifm-navbar-background-color: var(--ifm-background-color);
 }
