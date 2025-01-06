@@ -38,6 +38,15 @@
   --ifm-footer-background-color: var(--background-color);
 }
 
+.footer a {
+  color: var(--ifm-footer-color);
+}
+
+.footer a:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
 .hidden {
   display: none;
 }
