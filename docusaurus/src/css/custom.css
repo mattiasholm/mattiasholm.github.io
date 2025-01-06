@@ -3,8 +3,10 @@
   --background-color: #2e2e2e;
 }
 
-.navbar__brand:hover {
-  opacity: 0.5;
+@media (hover: hover) {
+  .navbar__brand:hover {
+    opacity: 0.5;
+  }
 }
 
 [data-theme='dark'] .navbar {
@@ -36,6 +38,16 @@
 .hero {
   --ifm-hero-background-color: var(--background-color);
   --ifm-hero-text-color: var(--ifm-color-white);
+}
+
+.emoji {
+  font-size: 90px;
+  margin-bottom: 0;
+}
+
+.emoji a:hover {
+  opacity: 0.5;
+  text-decoration: none;
 }
 
 .footer {
@@ -87,7 +99,6 @@
   color: var(--ifm-color-primary);
   font-size: 18px;
   font-weight: bold;
-  margin: 0;
 }
 
 .rating {

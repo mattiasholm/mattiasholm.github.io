@@ -2,8 +2,6 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
-const emojis = '🍸🎻 🤿';
-
 const config: Config = {
   title: 'Mattias Holm',
   tagline: 'A website dedicated to my hobbies',
@@ -46,7 +44,9 @@ const config: Config = {
       defaultMode: 'dark',
     },
     navbar: {
-      title: emojis,
+      logo: {
+        src: '/img/favicon.ico',
+      },
       hideOnScroll: true,
       items: [
         {
@@ -77,9 +77,6 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
-  customFields: {
-    emojis: emojis,
-  },
 };
 
 export default config;
