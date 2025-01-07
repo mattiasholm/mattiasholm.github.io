@@ -47,7 +47,6 @@ const config: Config = {
       logo: {
         src: '/img/favicon.ico',
       },
-      hideOnScroll: true,
       items: [
         {
           label: 'Drinks',
