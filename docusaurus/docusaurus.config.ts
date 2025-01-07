@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Mattias Holm',
   tagline: 'A website dedicated to my hobbies',
-  favicon: 'img/favicon.ico',
+  favicon: '/img/favicon.ico',
 
   url: 'https://mattiasholm.github.io',
   baseUrl: '/',
