@@ -1,10 +1,13 @@
 import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
+import fs from 'fs';
 
-const categories = [
-  { label: 'Drinks', dirName: 'drinks' },
-  { label: 'Tunes', dirName: 'tunes' },
-  { label: 'Dives', dirName: 'dives' },
-];
+const categories = fs
+  .readdirSync('docs', { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((dir) => ({
+    label: dir.name.charAt(0).toUpperCase() + dir.name.slice(1),
+    dirName: dir.name,
+  }));
 
 const sidebars: SidebarsConfig = {};
 

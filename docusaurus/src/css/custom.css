@@ -63,10 +63,6 @@
   text-decoration: none;
 }
 
-.hidden {
-  display: none;
-}
-
 .docCardList .card p {
   display: none;
 }

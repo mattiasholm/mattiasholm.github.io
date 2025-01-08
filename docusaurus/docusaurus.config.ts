@@ -26,6 +26,12 @@ const config: Config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
+          async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+            const sidebarItems = await defaultSidebarItemsGenerator(args);
+            return sidebarItems.filter((item) => {
+              return !('id' in item && item.id.endsWith('/index'));
+            });
+          },
         },
         theme: {
           customCss: './src/css/custom.css',
