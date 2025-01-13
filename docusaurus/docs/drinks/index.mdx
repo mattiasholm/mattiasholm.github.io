@@ -1,6 +1,7 @@
 ---
 title: Drinks
-sidebar_class_name: hidden
+pagination_next: null
+pagination_prev: null
 ---
 
 # Drinks 🍸
@@ -23,28 +24,35 @@ sidebar_class_name: hidden
   </div>
 </div>
 
-<br />
-<br />
+<br /><br />
 
 <div>
   <p>
-    <span className="rating">★☆☆☆☆</span>&nbsp;&nbsp;&nbsp;
-    <span className="value">2,1%</span>
+    <span className='rating'>★☆☆☆☆</span>&nbsp;&nbsp;&nbsp;
+    <span className='value'>2,1%</span>
   </p>
   <p>
-    <span className="rating">★★☆☆☆</span>&nbsp;&nbsp;&nbsp;
-    <span className="value">8,7%</span>
+    <span className='rating'>★★☆☆☆</span>&nbsp;&nbsp;&nbsp;
+    <span className='value'>8,7%</span>
   </p>
   <p>
-    <span className="rating">★★★☆☆</span>&nbsp;&nbsp;&nbsp;
-    <span className="value">36,0%</span>
+    <span className='rating'>★★★☆☆</span>&nbsp;&nbsp;&nbsp;
+    <span className='value'>36,0%</span>
   </p>
   <p>
-    <span className="rating">★★★★☆</span>&nbsp;&nbsp;&nbsp;
-    <span className="value">39,1%</span>
+    <span className='rating'>★★★★☆</span>&nbsp;&nbsp;&nbsp;
+    <span className='value'>39,1%</span>
   </p>
   <p>
-    <span className="rating">★★★★★</span>&nbsp;&nbsp;&nbsp;
-    <span className="value">14,2%</span>
+    <span className='rating'>★★★★★</span>&nbsp;&nbsp;&nbsp;
+    <span className='value'>14,2%</span>
   </p>
 </div>
+
+<br /><br />
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList className='docCardList' />
+
+<!-- Choose between pagination or doccards, not both! -->
