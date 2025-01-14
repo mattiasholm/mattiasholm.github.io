@@ -73,7 +73,6 @@ jobs:
     permissions:
       id-token: write
       pages: write
-
     steps:
       - name: Deploy site
         id: deploy
