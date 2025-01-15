@@ -19,7 +19,7 @@ defaults:
     working-directory: docusaurus
 
 env:
-  path: docusaurus
+  WORK_DIR: docusaurus
 
 jobs:
   build:
@@ -42,8 +42,8 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v4
         with:
-          path: ${{ env.path }}/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles(format('{0}/package-lock.json', env.path)) }}
+          path: ${{ env.WORK_DIR }}/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles(format('{0}/package-lock.json', env.WORK_DIR)) }}
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -60,7 +60,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ env.path }}/build
+          path: ${{ env.WORK_DIR }}/build
 
   release:
     name: Release
