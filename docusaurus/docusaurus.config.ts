@@ -41,6 +41,12 @@ const config: Config = {
   ],
 
   themeConfig: {
+    algolia: {
+      appId: 'QUS0BYF6TL',
+      apiKey: '099d6f2e33be7e38a662e10a39e439c0',
+      indexName: 'mattiasholmio',
+      placeholder: 'Search',
+    },
     docs: {
       sidebar: {
         autoCollapseCategories: true,
@@ -80,12 +86,6 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
-    },
-    algolia: {
-      appId: 'QUS0BYF6TL',
-      apiKey: '099d6f2e33be7e38a662e10a39e439c0',
-      indexName: 'mattiasholmio',
-      placeholder: 'Search',
     },
   } satisfies Preset.ThemeConfig,
 };
