@@ -79,10 +79,6 @@ const config: Config = {
         },
       ],
     },
-    footer: {
-      style: 'dark',
-      copyright: `<a href='https://github.com/mattiasholm' target='_blank'>Copyright © ${new Date().getFullYear()} Mattias Holm</a>`,
-    },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
