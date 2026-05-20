@@ -1,3 +1,11 @@
+---
+hide_title: true
+---
+
+import ABCNotation from '@site/src/components/ABCNotation';
+
+<ABCNotation abcString={
+`
 X:1
 T:Gráinne's
 R:jig
@@ -10,3 +18,5 @@ B2c|:dGF GDB,|G,A,G, DB,D|EcB ABG|FED cBA|
 |(3Bcd B Ggf|ecA ~E2E|DFc BDF|1 AGF G2A:|2 AGF G2D|]
 |:GBd ~g2g|edc BA^G|A^ce ~a2g|fd^c def|
 |gdB Ggf|ecA ~E2E|DFc BDF|1 AGF G2D:|2 AGF GBc|]
+`
+} />
