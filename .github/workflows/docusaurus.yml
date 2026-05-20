@@ -22,9 +22,6 @@ on:
 
   workflow_dispatch:
 
-concurrency:
-  group: docusaurus
-
 defaults:
   run:
     working-directory: docusaurus
