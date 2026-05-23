@@ -37,20 +37,28 @@
 
 .DocSearch {
   --docsearch-muted-color: var(--ifm-font-color-base);
-  --docsearch-hit-color: var(--ifm-font-color-base);
   --docsearch-container-background: rgba(0, 0, 0, 0.7);
 }
 
 [data-theme='dark'] .DocSearch {
-  --docsearch-searchbox-background: var(--background-color);
   --docsearch-modal-background: var(--ifm-background-color);
+}
+
+.DocSearch-Button {
+  color: var(--ifm-font-color-base) !important;
+  background-color: var(--ifm-background-color) !important;
+  border-color: var(--ifm-color-emphasis-400) !important;
+}
+
+.DocSearch-Button:hover {
+  border-color: var(--ifm-color-primary) !important;
 }
 
 .DocSearch-Button-Keys,
 .DocSearch-Hit-icon,
 .DocSearch-Footer,
 .container.margin-vert--lg h1,
-[class^="algoliaLogo"] {
+[class*="searchLogoColumn"] {
   display: none !important;
 }
 
