@@ -50,8 +50,18 @@
   border-color: var(--ifm-color-emphasis-400) !important;
 }
 
-.DocSearch-Button:hover {
-  border-color: var(--ifm-color-primary) !important;
+@media (hover: hover) {
+  .DocSearch-Button:hover {
+    border-color: var(--ifm-color-primary) !important;
+  }
+}
+
+.DocSearch-Search-Icon {
+  color: var(--ifm-font-color-base) !important;
+}
+
+.DocSearch-Clear {
+  color: var(--ifm-color-primary) !important;
 }
 
 .DocSearch-Button-Keys,
