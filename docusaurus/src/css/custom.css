@@ -60,12 +60,16 @@
   color: var(--ifm-font-color-base) !important;
 }
 
+.DocSearch-Hit :is(svg, mark),
 .DocSearch-Clear {
   color: var(--ifm-color-primary) !important;
 }
 
+.DocSearch-Screen-Icon svg {
+  stroke: var(--ifm-font-color-base) !important;
+}
+
 .DocSearch-Button-Keys,
-.DocSearch-Hit-icon,
 .DocSearch-Footer,
 .container.margin-vert--lg h1,
 [class*="searchLogoColumn"] {
