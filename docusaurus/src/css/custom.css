@@ -66,6 +66,10 @@
   color: var(--ifm-color-primary) !important;
 }
 
+.search-result-match {
+  background: var(--ifm-color-emphasis-200) !important;
+}
+
 .DocSearch-Button-Keys,
 .DocSearch-Footer,
 .container.margin-vert--lg h1,
