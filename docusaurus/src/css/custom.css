@@ -70,6 +70,10 @@
   fill: none !important;
 }
 
+.DocSearch-HitsFooter a:hover {
+  color: var(--ifm-color-primary) !important;
+}
+
 .DocSearch-Clear,
 .DocSearch-Close {
   color: var(--ifm-font-color-base) !important;
