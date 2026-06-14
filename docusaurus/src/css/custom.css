@@ -102,10 +102,14 @@
   background-color: var(--ifm-color-emphasis-200) !important;
 }
 
+.DocSearch input[type='search']::-webkit-search-cancel-button {
+  filter: grayscale();
+}
+
 .DocSearch-Button-Keys,
 .DocSearch-Footer,
 .container.margin-vert--lg h1,
-[class*="searchLogoColumn"] {
+[class*='searchLogoColumn'] {
   display: none !important;
 }
 
