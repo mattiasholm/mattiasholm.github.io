@@ -66,8 +66,9 @@
   color: var(--ifm-color-primary) !important;
 }
 
+.DocSearch-Hit[aria-selected='true'] a,
 .search-result-match {
-  background: var(--ifm-color-emphasis-200) !important;
+  background-color: var(--ifm-color-emphasis-200) !important;
 }
 
 .DocSearch-Button-Keys,
