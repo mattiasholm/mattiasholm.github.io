@@ -70,8 +70,12 @@
   fill: none !important;
 }
 
+.DocSearch-HitsFooter a {
+  border-bottom: 0 !important;
+}
+
 .DocSearch-HitsFooter a:hover {
-  color: var(--ifm-color-primary) !important;
+  color: var(--ifm-color-primary);
 }
 
 .DocSearch-Clear,
