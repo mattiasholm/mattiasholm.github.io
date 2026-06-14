@@ -65,13 +65,15 @@
   color: var(--ifm-color-primary) !important;
 }
 
-.DocSearch-Clear {
+.DocSearch-Clear,
+.DocSearch-Close {
   color: var(--ifm-font-color-base) !important;
 }
 
 .DocSearch-Clear:hover,
 .DocSearch-Close:hover {
   color: var(--ifm-color-primary) !important;
+  background-color: transparent !important;
 }
 
 .DocSearch-Hit[aria-selected='true'] a,
