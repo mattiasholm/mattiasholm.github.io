@@ -66,6 +66,10 @@
   color: var(--ifm-color-primary) !important;
 }
 
+.DocSearch-Hit-action svg path {
+  fill: none !important;
+}
+
 .DocSearch-Clear,
 .DocSearch-Close {
   color: var(--ifm-font-color-base) !important;
