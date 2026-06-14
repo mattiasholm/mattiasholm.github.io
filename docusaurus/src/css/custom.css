@@ -61,8 +61,16 @@
 }
 
 .DocSearch-MagnifierLabel .DocSearch-Search-Icon,
-.DocSearch-Hit :is(svg, mark),
+.DocSearch-Hit :is(svg, mark) {
+  color: var(--ifm-color-primary) !important;
+}
+
 .DocSearch-Clear {
+  color: var(--ifm-font-color-base) !important;
+}
+
+.DocSearch-Clear:hover,
+.DocSearch-Close:hover {
   color: var(--ifm-color-primary) !important;
 }
 
