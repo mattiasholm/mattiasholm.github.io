@@ -56,14 +56,14 @@
   }
 }
 
+.DocSearch-Screen-Icon svg {
+  stroke: var(--ifm-color-primary) !important;
+}
+
 .DocSearch-MagnifierLabel .DocSearch-Search-Icon,
 .DocSearch-Hit :is(svg, mark),
 .DocSearch-Clear {
   color: var(--ifm-color-primary) !important;
-}
-
-.DocSearch-Screen-Icon svg {
-  stroke: var(--ifm-color-primary) !important;
 }
 
 .DocSearch-Button-Keys,
