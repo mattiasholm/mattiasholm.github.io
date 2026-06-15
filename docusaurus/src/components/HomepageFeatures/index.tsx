@@ -14,7 +14,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     emoji: <Link to='/tunes'>🪕</Link>,
-    description: <>A collection of traditional Irish tunes in ABC notation</>,
+    description: <>A collection of traditional Irish tunes</>,
   },
   {
     emoji: <Link to='/dives'>🤿</Link>,
