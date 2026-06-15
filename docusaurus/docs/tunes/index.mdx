@@ -2,36 +2,34 @@
 title: Tunes
 ---
 
+import DocCardList from '@theme/DocCardList';
+
+export function TunesStats() {
+  const statBoxes = [
+    { label: 'Number of tunes', value: '207' },
+    { label: 'Top tune type', value: 'Reel' },
+    { label: 'Top key signature', value: 'D major' },
+  ];
+
+  return (
+    <div className='stats'>
+      {statBoxes.map(({ label, value }) => (
+        <div className='statBox' key={label}>
+          <div className='label'>
+            <p>{label}</p>
+          </div>
+          <div className='value'>
+            <p>{value}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 # Tunes 🪕
-<div className='stats'>
-  <div className='statBox'>
-    <div className='label'>
-      Number of tunes
-    </div>
-    <div className='value'>
-      207
-    </div>
-  </div>
-  <div className='statBox'>
-    <div className='label'>
-      Top tune type
-    </div>
-    <div className='value'>
-      Reel
-    </div>
-  </div>
-  <div className='statBox'>
-    <div className='label'>
-      Top key signature
-    </div>
-    <div className='value'>
-      D major
-    </div>
-  </div>
-</div>
+<TunesStats />
 
 <br /><br />
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />
