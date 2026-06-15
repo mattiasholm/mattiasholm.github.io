@@ -11,7 +11,7 @@ export function DivesStats() {
   ];
 
   return (
-    <div className='stats'>
+    <div className='boxes'>
       {statBoxes.map(({ label, value }) => (
         <div className='statBox' key={label}>
           <div className='label'>
@@ -26,8 +26,8 @@ export function DivesStats() {
   );
 }
 
-export function DivesCertifications() {
-  const certBoxes = [
+export function DivesCards() {
+  const cardBoxes = [
     {
       title: 'SSI Specialty Diver',
       id: '728104Z7171875164967-SE',
@@ -91,14 +91,14 @@ export function DivesCertifications() {
   ];
 
   return (
-    <div className='stats'>
-      {certBoxes.map(({ title, id, date, logo }) => (
-        <div className='certBox' key={id}>
+    <div className='boxes'>
+      {cardBoxes.map(({ title, id, date, logo }) => (
+        <div className='cardBox' key={id}>
           <div className='label'>
-            <img src={logo} height='25' className='certLogo'></img>
+            <img src={logo} height='25' className='logo'></img>
             {title}
           </div>
-          <div className='certId'>{id}</div>
+          <div className='id'>{id}</div>
           <div>{date}</div>
         </div>
       ))}
@@ -117,5 +117,5 @@ export function DivesCertifications() {
 
 <details>
   <summary>Show my certifications</summary>
-  <DivesCertifications />
+  <DivesCards />
 </details>
