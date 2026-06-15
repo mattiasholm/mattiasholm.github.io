@@ -95,7 +95,7 @@ export function DivesCertifications() {
       {certBoxes.map(({ title, id, date, logo }) => (
         <div className='certBox' key={id}>
           <div className='label'>
-            <img src={logo} height='25'></img>
+            <img src={logo} height='25' className='certLogo'></img>
             {title}
           </div>
           <div className='certId'>{id}</div>
