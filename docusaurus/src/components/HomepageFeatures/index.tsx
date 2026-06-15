@@ -10,7 +10,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     emoji: <Link to='/drinks'>🍸</Link>,
-    description: <>A collection of cocktails by a hobby mixologist</>,
+    description: <>A collection of drinks & cocktails</>,
   },
   {
     emoji: <Link to='/tunes'>🪕</Link>,
