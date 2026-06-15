@@ -5,7 +5,11 @@
   width: 100%;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.featureIcon {
+  height: 90px;
+  width: 90px;
+}
+
+.featureIcon:hover {
+  opacity: 0.5;
 }

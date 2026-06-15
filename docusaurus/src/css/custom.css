@@ -118,16 +118,6 @@ input[type='search']::-webkit-search-cancel-button {
   --ifm-hero-text-color: var(--ifm-color-white);
 }
 
-.emoji {
-  font-size: 90px;
-  margin-bottom: 0;
-}
-
-.emoji a:hover {
-  opacity: 0.5;
-  text-decoration: none;
-}
-
 .docCardList .card p {
   display: none;
 }

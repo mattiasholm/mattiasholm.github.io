@@ -3,30 +3,42 @@ import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 type FeatureItem = {
-  emoji: JSX.Element;
+  icon: JSX.Element;
   description: JSX.Element;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    emoji: <Link to='/drinks'>🍸</Link>,
+    icon: (
+      <Link to='/drinks'>
+        <img src='/img/drinks.png' className={styles.featureIcon} />
+      </Link>
+    ),
     description: <>A collection of drinks & cocktails</>,
   },
   {
-    emoji: <Link to='/tunes'>🪕</Link>,
+    icon: (
+      <Link to='/tunes'>
+        <img src='/img/tunes.png' className={styles.featureIcon} />
+      </Link>
+    ),
     description: <>A collection of traditional Irish tunes</>,
   },
   {
-    emoji: <Link to='/dives'>🤿</Link>,
+    icon: (
+      <Link to='/dives'>
+        <img src='/img/dives.png' className={styles.featureIcon} />
+      </Link>
+    ),
     description: <>A collection of scuba dives</>,
   },
 ];
 
-function Feature({ emoji, description }: FeatureItem) {
+function Feature({ icon, description }: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className='text--center padding-horiz--md'>
-        <p className='emoji'>{emoji}</p>
+        <p style={{ marginTop: '2rem' }}>{icon}</p>
         <p>{description}</p>
       </div>
     </div>

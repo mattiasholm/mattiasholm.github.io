@@ -30,85 +30,75 @@ export function DivesCertifications() {
   const certBoxes = [
     {
       title: 'SSI Specialty Diver',
-      certId: '728104Z7171875164967-SE',
+      id: '728104Z7171875164967-SE',
       date: '2024-06-08',
-      logoSrc: '/img/ssi.svg',
-      logoAlt: 'SSI',
+      logo: '/img/ssi.svg',
     },
     {
       title: 'SSI Perfect Buoyancy',
-      certId: '728104C7171975160809-SE',
+      id: '728104C7171975160809-SE',
       date: '2024-06-08',
-      logoSrc: '/img/ssi.svg',
-      logoAlt: 'SSI',
+      logo: '/img/ssi.svg',
     },
     {
       title: 'SSI Deep Diving',
-      certId: '728104A6598373067162-SE',
+      id: '728104A6598373067162-SE',
       date: '2022-07-31',
-      logoSrc: '/img/ssi.svg',
-      logoAlt: 'SSI',
+      logo: '/img/ssi.svg',
     },
     {
       title: 'PADI Rescue Diver',
-      certId: '2110UY2123',
+      id: '2110UY2123',
       date: '2021-10-24',
-      logoSrc: '/img/padi.svg',
-      logoAlt: 'PADI',
+      logo: '/img/padi.svg',
     },
     {
       title: 'PADI Emergency Oxygen Provider',
-      certId: '2110UY2113',
+      id: '2110UY2113',
       date: '2021-10-21',
-      logoSrc: '/img/padi.svg',
-      logoAlt: 'PADI',
+      logo: '/img/padi.svg',
     },
     {
       title: 'PADI Enriched Air Diver',
-      certId: '2102UE3152',
+      id: '2102UE3152',
       date: '2021-02-10',
-      logoSrc: '/img/padi.svg',
-      logoAlt: 'PADI',
+      logo: '/img/padi.svg',
     },
     {
       title: 'PADI Night Diver',
-      certId: '2011UO0326',
+      id: '2011UO0326',
       date: '2020-11-07',
-      logoSrc: '/img/padi.svg',
-      logoAlt: 'PADI',
+      logo: '/img/padi.svg',
     },
     {
       title: 'PADI Advanced Open Water Diver',
-      certId: '2008UT0434',
+      id: '2008UT0434',
       date: '2020-08-16',
-      logoSrc: '/img/padi.svg',
-      logoAlt: 'PADI',
+      logo: '/img/padi.svg',
     },
     {
       title: 'PADI Dry Suit Diver',
-      certId: '2008UQ4478',
+      id: '2008UQ4478',
       date: '2020-08-09',
-      logoSrc: '/img/padi.svg',
-      logoAlt: 'PADI',
+      logo: '/img/padi.svg',
     },
     {
       title: 'PADI Open Water Diver',
-      certId: '2007UH8396',
+      id: '2007UH8396',
       date: '2020-07-03',
-      logoSrc: '/img/padi.svg',
-      logoAlt: 'PADI',
+      logo: '/img/padi.svg',
     },
   ];
 
   return (
     <div className='stats'>
-      {certBoxes.map(({ title, certId, date, logoSrc, logoAlt }) => (
-        <div className='certBox' key={certId}>
+      {certBoxes.map(({ title, id, date, logo }) => (
+        <div className='certBox' key={id}>
           <div className='label'>
-            <img src={logoSrc} height='25' alt={logoAlt}></img>
+            <img src={logo} height='25'></img>
             {title}
           </div>
-          <div className='certId'>{certId}</div>
+          <div className='certId'>{id}</div>
           <div>{date}</div>
         </div>
       ))}
@@ -116,7 +106,7 @@ export function DivesCertifications() {
   );
 }
 
-# Dives 🤿
+# Dives <img src='/img/dives.png' height='48' style={{verticalAlign: 'top', marginTop: '0.35rem'}} />
 <DivesStats />
 
 <br />
