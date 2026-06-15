@@ -18,7 +18,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     emoji: <Link to='/dives'>🤿</Link>,
-    description: <>A collection of all my scuba dives</>,
+    description: <>A collection of scuba dives</>,
   },
 ];
 
