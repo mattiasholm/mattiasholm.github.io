@@ -2,47 +2,49 @@
 title: Drinks
 ---
 
+import useGlobalData from '@docusaurus/useGlobalData';
+
+export function DrinksStats() {
+  const stats = useGlobalData()['drinks-stats']?.default;
+
+  if (!stats) {
+    return null;
+  }
+
+  return (
+    <>
+      <div className='stats'>
+        <div className='statBox'>
+          <div className='label'>
+            <p>Number of drinks</p>
+          </div>
+          <div className='value'>
+            <p>{stats.fileCount}</p>
+          </div>
+        </div>
+        <div className='statBox'>
+          <div className='label'>
+            <p>Average rating</p>
+          </div>
+          <div className='value'>
+            <p>{stats.averageRating.toFixed(1)}</p>
+          </div>
+        </div>
+      </div>
+
+      <br /><br />
+
+      <div>
+        {stats.ratings.map(({ stars, percentage }) => (
+          <p key={stars}>
+            <span className='rating'>{stars}</span>&nbsp;&nbsp;&nbsp;
+            <span className='value'>{percentage}%</span>
+          </p>
+        ))}
+      </div>
+    </>
+  );
+}
+
 # Drinks 🍸
-<div className='stats'>
-  <div className='statBox'>
-    <div className='label'>
-      Number of drinks
-    </div>
-    <div className='value'>
-      490
-    </div>
-  </div>
-  <div className='statBox'>
-    <div className='label'>
-      Average rating
-    </div>
-    <div className='value'>
-      3.5
-    </div>
-  </div>
-</div>
-
-<br /><br />
-
-<div>
-  <p>
-    <span className='rating'>★☆☆☆☆</span>&nbsp;&nbsp;&nbsp;
-    <span className='value'>2.2%</span>
-  </p>
-  <p>
-    <span className='rating'>★★☆☆☆</span>&nbsp;&nbsp;&nbsp;
-    <span className='value'>9.2%</span>
-  </p>
-  <p>
-    <span className='rating'>★★★☆☆</span>&nbsp;&nbsp;&nbsp;
-    <span className='value'>33.1%</span>
-  </p>
-  <p>
-    <span className='rating'>★★★★☆</span>&nbsp;&nbsp;&nbsp;
-    <span className='value'>42.9%</span>
-  </p>
-  <p>
-    <span className='rating'>★★★★★</span>&nbsp;&nbsp;&nbsp;
-    <span className='value'>12.7%</span>
-  </p>
-</div>
+<DrinksStats />

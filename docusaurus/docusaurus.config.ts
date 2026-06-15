@@ -1,6 +1,68 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import fs from 'node:fs';
+import path from 'node:path';
+
+function createDrinksStatsPlugin() {
+  return {
+    name: 'drinks-stats',
+    async loadContent() {
+      const drinksDir = path.join(__dirname, 'docs', 'drinks');
+      const files = fs
+        .readdirSync(drinksDir)
+        .filter((file) => /\.md$/i.test(file));
+
+      const countsByRating = new Map<number, number>([
+        [1, 0],
+        [2, 0],
+        [3, 0],
+        [4, 0],
+        [5, 0],
+      ]);
+
+      for (const file of files) {
+        const filePath = path.join(drinksDir, file);
+        const content = fs.readFileSync(filePath, 'utf8');
+        const ratingMatches = [...content.matchAll(/^\s*-\s*(★{1,5}☆{0,4})\s*$/gm)];
+        const lastRating = ratingMatches.at(-1)?.[1] ?? '';
+        const stars = (lastRating.match(/★/g) ?? []).length;
+
+        if (stars >= 1 && stars <= 5) {
+          countsByRating.set(stars, (countsByRating.get(stars) ?? 0) + 1);
+        }
+      }
+
+      const fileCount = files.length;
+      const weightedSum = [...countsByRating.entries()].reduce(
+        (sum, [rating, count]) => sum + rating * count,
+        0,
+      );
+      const averageRating = fileCount > 0 ? Math.round((weightedSum / fileCount) * 10) / 10 : 0;
+
+      return {
+        fileCount,
+        averageRating,
+        ratings: ['★☆☆☆☆', '★★☆☆☆', '★★★☆☆', '★★★★☆', '★★★★★'].map((stars, index) => {
+          const count = countsByRating.get(index + 1) ?? 0;
+          return {
+            stars,
+            percentage: fileCount > 0 ? Math.round((count / fileCount) * 100) : 0,
+          };
+        }),
+      };
+    },
+    async contentLoaded({
+      content,
+      actions,
+    }: {
+      content: unknown;
+      actions: { setGlobalData: (data: unknown) => void };
+    }) {
+      actions.setGlobalData(content);
+    },
+  };
+}
 
 const config: Config = {
   title: 'Mattias Holm',
@@ -45,6 +107,8 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
+
+  plugins: [createDrinksStatsPlugin],
 
   themeConfig: {
     algolia: {
