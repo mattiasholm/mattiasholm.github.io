@@ -51,11 +51,11 @@ jobs:
           path: dives
 
       - name: Copy files (drinks)
-        run: cp drinks/drinks/*.md docusaurus/docs/drinks
+        run: cp drinks/drinks/*.md docusaurus/docs/drinks && cp drinks/syrups.json docusaurus/static/syrups.json
         working-directory: .
 
       - name: Copy files (dives)
-        run: cp dives/dives.csv docusaurus/static/dives.csv
+        run: cp dives/dives.csv docusaurus/static/dives.csv && cp dives/certs.json docusaurus/static/certs.json
         working-directory: .
 
       - name: Cache node modules

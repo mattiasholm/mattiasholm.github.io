@@ -2,6 +2,8 @@
 title: Dives
 ---
 
+import certsData from '@site/static/certs.json';
+
 export function DivesStats() {
   const statBoxes = [
     { label: 'Number of dives', value: '132' },
@@ -27,68 +29,7 @@ export function DivesStats() {
 }
 
 export function DivesCards() {
-  const cardBoxes = [
-    {
-      title: 'SSI Specialty Diver',
-      id: '728104Z7171875164967-SE',
-      date: '2024-06-08',
-      logo: '/img/ssi.svg',
-    },
-    {
-      title: 'SSI Perfect Buoyancy',
-      id: '728104C7171975160809-SE',
-      date: '2024-06-08',
-      logo: '/img/ssi.svg',
-    },
-    {
-      title: 'SSI Deep Diving',
-      id: '728104A6598373067162-SE',
-      date: '2022-07-31',
-      logo: '/img/ssi.svg',
-    },
-    {
-      title: 'PADI Rescue Diver',
-      id: '2110UY2123',
-      date: '2021-10-24',
-      logo: '/img/padi.svg',
-    },
-    {
-      title: 'PADI Emergency Oxygen Provider',
-      id: '2110UY2113',
-      date: '2021-10-21',
-      logo: '/img/padi.svg',
-    },
-    {
-      title: 'PADI Enriched Air Diver',
-      id: '2102UE3152',
-      date: '2021-02-10',
-      logo: '/img/padi.svg',
-    },
-    {
-      title: 'PADI Night Diver',
-      id: '2011UO0326',
-      date: '2020-11-07',
-      logo: '/img/padi.svg',
-    },
-    {
-      title: 'PADI Advanced Open Water Diver',
-      id: '2008UT0434',
-      date: '2020-08-16',
-      logo: '/img/padi.svg',
-    },
-    {
-      title: 'PADI Dry Suit Diver',
-      id: '2008UQ4478',
-      date: '2020-08-09',
-      logo: '/img/padi.svg',
-    },
-    {
-      title: 'PADI Open Water Diver',
-      id: '2007UH8396',
-      date: '2020-07-03',
-      logo: '/img/padi.svg',
-    },
-  ];
+  const cardBoxes = certsData;
 
   return (
     <div className='boxes'>
