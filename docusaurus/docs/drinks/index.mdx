@@ -16,6 +16,14 @@ export function DrinksStats() {
     { label: 'Average rating', value: stats.averageRating.toFixed(1) },
   ];
 
+  const ratingLabels = {
+    '★☆☆☆☆': 'Terrible',
+    '★★☆☆☆': 'Poor',
+    '★★★☆☆': 'Acceptable',
+    '★★★★☆': 'Remarkable',
+    '★★★★★': 'Outstanding',
+  };
+
   return (
     <>
       <div className='stats'>
@@ -36,7 +44,9 @@ export function DrinksStats() {
       <div>
         {stats.ratings.map(({ stars, percentage }) => (
           <p key={stars}>
-            <span className='rating'>{stars}</span>
+            <span className='rating' title={ratingLabels[stars]}>
+              {stars}
+            </span>
             <span className='value percentage'>{percentage}%</span>
           </p>
         ))}
