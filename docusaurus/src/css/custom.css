@@ -173,6 +173,10 @@ input[type='search']::-webkit-search-cancel-button {
   font-weight: bold;
 }
 
+.percentage {
+  margin-left: 1rem;
+}
+
 .certBox {
   background-color: var(--ifm-card-background-color);
   box-shadow: 0 1.5px 3px 0 rgb(0 0 0 / 15%);
