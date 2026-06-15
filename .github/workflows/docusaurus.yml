@@ -44,8 +44,18 @@ jobs:
           repository: mattiasholm/drinks
           path: drinks
 
+      - name: Check out repository (dives)
+        uses: actions/checkout@v6
+        with:
+          repository: mattiasholm/dives
+          path: dives
+
       - name: Copy files (drinks)
-        run: cp -r drinks/drinks/* docusaurus/docs/drinks
+        run: cp drinks/drinks/*.md docusaurus/docs/drinks
+        working-directory: .
+
+      - name: Copy files (dives)
+        run: cp dives/dives.csv docusaurus/static/dives.csv
         working-directory: .
 
       - name: Cache node modules
