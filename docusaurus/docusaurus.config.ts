@@ -21,9 +21,12 @@ function createDrinksStatsPlugin() {
         [5, 0],
       ]);
 
+      const spiritCounts = new Map<string, number>();
+
       for (const file of files) {
         const filePath = path.join(drinksDir, file);
         const content = fs.readFileSync(filePath, 'utf8');
+
         const ratingMatches = [...content.matchAll(/^\s*-\s*(★{1,5}☆{0,4})\s*$/gm)];
         const lastRating = ratingMatches.at(-1)?.[1] ?? '';
         const stars = (lastRating.match(/★/g) ?? []).length;
@@ -31,6 +34,14 @@ function createDrinksStatsPlugin() {
         if (stars >= 1 && stars <= 5) {
           countsByRating.set(stars, (countsByRating.get(stars) ?? 0) + 1);
         }
+
+        const ingredientSection = content.match(/## Ingredients\n([\s\S]*?)(?=##|\Z)/)![1];
+        const firstIngredient = ingredientSection.match(/^- (.+)$/m)![1];
+        const backtickMatch = firstIngredient.match(/`([^`]+)`/);
+        const normalized = backtickMatch?.[1]?.trim() ?? '';
+        const spirit = normalized.charAt(0).toUpperCase() + normalized.slice(1);
+
+        spiritCounts.set(spirit, (spiritCounts.get(spirit) ?? 0) + 1);
       }
 
       const fileCount = files.length;
@@ -40,9 +51,14 @@ function createDrinksStatsPlugin() {
       );
       const averageRating = fileCount > 0 ? Math.round((weightedSum / fileCount) * 10) / 10 : 0;
 
+      const topSpirit = [...spiritCounts.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .at(0)?.[0] ?? '-';
+
       return {
         fileCount,
         averageRating,
+        topSpirit,
         ratings: ['★☆☆☆☆', '★★☆☆☆', '★★★☆☆', '★★★★☆', '★★★★★'].map((stars, index) => {
           const count = countsByRating.get(index + 1) ?? 0;
           return {
