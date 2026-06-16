@@ -157,7 +157,7 @@ input[type='search']::-webkit-search-cancel-button {
   border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 20px;
   padding: 20px;
-  padding-top: 26px;
+  padding-top: 28px;
   text-align: right;
   width: 340px;
   height: 214px;
@@ -190,7 +190,7 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 .logo {
-  height: 30px;
+  width: 110px;
   display: block;
   margin-bottom: 2.5rem;
 }
