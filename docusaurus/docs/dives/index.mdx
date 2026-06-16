@@ -3,6 +3,7 @@ title: Dives
 ---
 
 import certsData from '@site/static/certs.json';
+import { useColorMode } from '@docusaurus/theme-common';
 
 export function DivesStats() {
   const statBoxes = [
@@ -30,13 +31,23 @@ export function DivesStats() {
 
 export function DivesCards() {
   const cardBoxes = certsData;
+  const { colorMode } = useColorMode();
+
+  const getLogo = (logo) => {
+    if (colorMode === 'light') {
+      return logo
+        .replace('/img/padi.svg', '/img/padi-light.svg')
+        .replace('/img/ssi.svg', '/img/ssi-light.svg');
+    }
+    return logo;
+  };
 
   return (
     <div className='boxes'>
       {cardBoxes.map(({ name, id, date, logo }) => (
         <div className='cardBox' key={id}>
           <div className='label'>
-            <img src={logo} height='25' className='logo'></img>
+            <img src={getLogo(logo)} height='25' className='logo'></img>
             {name}
           </div>
           <div className='id'>{id}</div>
