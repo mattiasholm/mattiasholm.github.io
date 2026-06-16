@@ -152,7 +152,7 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 .cardBox {
-  background-color: var(--ifm-card-background-color);
+  background-color: var(--ifm-color-emphasis-100);
   box-shadow: 0 1.5px 3px 0 rgb(0 0 0 / 15%);
   border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 20px;
@@ -190,11 +190,31 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 .logo {
-  width: 110px;
+  height: 30px;
   display: block;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .id {
   color: var(--ifm-color-primary);
+}
+
+.details {
+  background-color: var(--ifm-card-background-color);
+  --ifm-alert-border-color: var(--ifm-color-emphasis-200);
+  border-radius: 20px;
+}
+
+.details summary:hover {
+  color: var(--ifm-color-primary);
+}
+
+.downloadLink {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.downloadLink:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: underline;
 }

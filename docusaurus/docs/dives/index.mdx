@@ -36,8 +36,8 @@ export function DivesCards() {
   const getLogo = (logo) => {
     if (colorMode === 'light') {
       return logo
-        .replace('/img/padi.svg', '/img/padi-light.svg')
-        .replace('/img/ssi.svg', '/img/ssi-light.svg');
+        .replace('/img/padi.svg', '/img/padi-black.svg')
+        .replace('/img/ssi.svg', '/img/ssi-black.svg');
     }
     return logo;
   };
@@ -65,9 +65,9 @@ export function DivesCards() {
 <p><a href='/dives.csv' download>Download CSV</a></p>
 <br />
 
-<details>
+<details className='details'>
   <summary>Show my certifications</summary>
   <DivesCards />
   <br />
-  <p><a href='/certs.json' download>Download JSON</a></p>
+  <p><a href='/certs.json' download className='downloadLink'>Download JSON</a></p>
 </details>
