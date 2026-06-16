@@ -65,10 +65,10 @@ export function DrinksCards() {
 
   return (
     <div className='boxes'>
-      {cardBoxes.map(({ title, ingredients }) => (
-        <div className='cardBox' key={title}>
+      {cardBoxes.map(({ name, ingredients }) => (
+        <div className='cardBox' key={name}>
           <div className='label'>
-            {title}
+            {name}
           </div>
           <div>
             {ingredients.map((line) => (

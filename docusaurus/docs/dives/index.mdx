@@ -33,11 +33,11 @@ export function DivesCards() {
 
   return (
     <div className='boxes'>
-      {cardBoxes.map(({ title, id, date, logo }) => (
+      {cardBoxes.map(({ name, id, date, logo }) => (
         <div className='cardBox' key={id}>
           <div className='label'>
             <img src={logo} height='25' className='logo'></img>
-            {title}
+            {name}
           </div>
           <div className='id'>{id}</div>
           <div>{date}</div>
