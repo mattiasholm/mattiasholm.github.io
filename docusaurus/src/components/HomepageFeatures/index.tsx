@@ -38,7 +38,7 @@ function Feature({ icon, description }: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className='text--center padding-horiz--md'>
-        <p style={{ marginTop: '2rem' }}>{icon}</p>
+        <p className={styles.featureIconWrap}>{icon}</p>
         <p>{description}</p>
       </div>
     </div>

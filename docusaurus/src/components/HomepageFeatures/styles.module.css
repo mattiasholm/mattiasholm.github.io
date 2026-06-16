@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.featureIconWrap {
+  margin-top: 2rem;
+}
+
 .featureIcon {
   height: 90px;
   width: 90px;

@@ -126,6 +126,11 @@ input[type='search']::-webkit-search-cancel-button {
   margin-bottom: 0;
 }
 
+.titleIcon {
+  vertical-align: top;
+  margin-top: 0.35rem;
+}
+
 .boxes {
   display: flex;
   gap: 10px;
