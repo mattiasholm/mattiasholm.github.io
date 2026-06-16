@@ -168,6 +168,16 @@ input[type='search']::-webkit-search-cancel-button {
   font-size: 14px;
 }
 
+.syrupBox {
+  padding: 55px;
+  text-align: left;
+}
+
+.syrupBox .label {
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.25rem;
+}
+
 .label {
   color: var(--ifm-heading-color);
   font-size: 18px;
