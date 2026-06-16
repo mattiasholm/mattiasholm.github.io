@@ -23,6 +23,7 @@ function createDrinksStatsPlugin() {
 
       const spiritCounts = new Map<string, number>();
       const glassCounts = new Map<string, number>();
+      const csvRows: Array<[string, string, string, number]> = [];
 
       for (const file of files) {
         const filePath = path.join(drinksDir, file);
@@ -36,6 +37,8 @@ function createDrinksStatsPlugin() {
           countsByRating.set(stars, (countsByRating.get(stars) ?? 0) + 1);
         }
 
+        const title = content.match(/^# (.+)$/m)![1].trim();
+
         const ingredientSection = content.match(/## Ingredients\n([\s\S]*?)(?=##|\Z)/)![1];
         const firstIngredient = ingredientSection.match(/^- (.+)$/m)![1];
         const backtickMatch = firstIngredient.match(/`([^`]+)`/);
@@ -46,7 +49,20 @@ function createDrinksStatsPlugin() {
         const glasswareSection = content.match(/## Glassware\n([\s\S]*?)(?=##|\Z)/)![1];
         const glassware = glasswareSection.match(/^- (.+)$/m)![1].trim().replace(/ glass$/i, '');
         glassCounts.set(glassware, (glassCounts.get(glassware) ?? 0) + 1);
+
+        csvRows.push([title, spirit, glassware, stars]);
       }
+
+      const csvPath = path.join(__dirname, 'static', 'drinks.csv');
+      const escapeCsv = (value: string | number) => {
+        const s = String(value);
+        return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+      };
+      const csvLines = [
+        'Name,Base spirit,Glassware,Rating',
+        ...csvRows.map((row) => row.map((value) => escapeCsv(value)).join(',')),
+      ];
+      fs.writeFileSync(csvPath, csvLines.join('\n'), 'utf8');
 
       const fileCount = files.length;
       const weightedSum = [...countsByRating.entries()].reduce(

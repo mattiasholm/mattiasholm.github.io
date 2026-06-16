@@ -42,7 +42,9 @@ export function DrinksStats() {
         ))}
       </div>
 
-      <br /><br />
+      <br />
+      <p><a href='/drinks.csv' download>Download CSV</a></p>
+      <br />
 
       <div>
         {stats.ratings.map(({ stars, percentage }) => (
