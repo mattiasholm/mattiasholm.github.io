@@ -53,12 +53,17 @@ export function Ratings() {
   return (
     <div>
       <h2>Ratings</h2>
-      {stats.ratings.map(({ stars, percentage }) => (
+      {stats.ratings.map(({ stars, percentage, count }) => (
         <p key={stars}>
           <span className='rating' title={ratingLabels[stars]}>
             {stars}
           </span>
-          <span className='value percentage'>{percentage}%</span>
+          <span
+            className='value percentage'
+            title={`${count} drink${count === 1 ? '' : 's'}`}
+          >
+            {percentage}%
+          </span>
         </p>
       ))}
     </div>

@@ -88,6 +88,7 @@ function createDrinksStatsPlugin() {
           const count = countsByRating.get(index + 1) ?? 0;
           return {
             stars,
+            count,
             percentage: fileCount > 0 ? Math.round((count / fileCount) * 100) : 0,
           };
         }),
