@@ -161,14 +161,18 @@ function createDivesStatsPlugin() {
       const hours = Math.floor(totalMinutes / 60);
       const minutes = totalMinutes % 60;
       const averageTime = rows.length > 0 ? Math.round(totalMinutes / rows.length) : 0;
-      const topDiveSites = [...diveSiteCounts.entries()]
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5)
-        .map(([name, count]) => ({
-          name,
-          count,
-          percentage: rows.length > 0 ? Math.round((count / rows.length) * 100) : 0,
-        }));
+      const topDiveSites = diveSiteCounts.size === 0
+        ? Array.from({ length: 5 }, () => ({
+          name: '-',
+          count: 0,
+        }))
+        : [...diveSiteCounts.entries()]
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5)
+          .map(([name, count]) => ({
+            name,
+            count,
+          }));
 
       return {
         rowCount: rows.length,
