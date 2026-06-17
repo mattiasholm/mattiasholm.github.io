@@ -2,15 +2,22 @@
 title: Dives
 ---
 
+import useGlobalData from '@docusaurus/useGlobalData';
 import certsData from '@site/static/certs.json';
 import { useColorMode } from '@docusaurus/theme-common';
 
 export function DivesStats() {
+  const stats = useGlobalData()['dives-stats']?.default;
+
+  if (!stats) {
+    return null;
+  }
+
   const statBoxes = [
-    { label: 'Number of dives', value: '132' },
-    { label: 'Total time', value: '102 hours, 56 minutes' },
-    { label: 'Max depth', value: '39,5 meters' },
-    { label: 'Max time', value: '71 minutes' },
+    { label: 'Number of dives', value: stats.rowCount },
+    { label: 'Total duration', value: stats.totalTime },
+    { label: 'Maximum depth', value: stats.maxDepth },
+    { label: 'Maximum time', value: stats.maxTime },
   ];
 
   return (

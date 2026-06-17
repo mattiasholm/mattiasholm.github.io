@@ -30,7 +30,7 @@ function createDrinksStatsPlugin() {
         const content = fs.readFileSync(filePath, 'utf8');
 
         const ratingMatches = [...content.matchAll(/^\s*-\s*(★{1,5}☆{0,4})\s*$/gm)];
-        const lastRating = ratingMatches.at(-1)?.[1] ?? '';
+        const lastRating = ratingMatches.at(-1)![1];
         const stars = (lastRating.match(/★/g) ?? []).length;
 
         if (stars >= 1 && stars <= 5) {
@@ -41,8 +41,8 @@ function createDrinksStatsPlugin() {
 
         const ingredientSection = content.match(/## Ingredients\n([\s\S]*?)(?=##|\Z)/)![1];
         const firstIngredient = ingredientSection.match(/^- (.+)$/m)![1];
-        const backtickMatch = firstIngredient.match(/`([^`]+)`/);
-        const normalized = backtickMatch?.[1]?.trim() ?? '';
+        const backtickMatch = firstIngredient.match(/`([^`]+)`/)!;
+        const normalized = backtickMatch[1].trim();
         const spirit = normalized.charAt(0).toUpperCase() + normalized.slice(1);
         spiritCounts.set(spirit, (spiritCounts.get(spirit) ?? 0) + 1);
 
@@ -69,7 +69,7 @@ function createDrinksStatsPlugin() {
         (sum, [rating, count]) => sum + rating * count,
         0,
       );
-      const averageRating = fileCount > 0 ? Math.round((weightedSum / fileCount) * 10) / 10 : 0;
+      const averageRating = (fileCount > 0 ? Math.round((weightedSum / fileCount) * 10) / 10 : 0).toFixed(1);
 
       const topSpirit = [...spiritCounts.entries()]
         .sort((a, b) => b[1] - a[1])
@@ -91,6 +91,61 @@ function createDrinksStatsPlugin() {
             percentage: fileCount > 0 ? Math.round((count / fileCount) * 100) : 0,
           };
         }),
+      };
+    },
+    async contentLoaded({
+      content,
+      actions,
+    }: {
+      content: unknown;
+      actions: { setGlobalData: (data: unknown) => void };
+    }) {
+      actions.setGlobalData(content);
+    },
+  };
+}
+
+function createDivesStatsPlugin() {
+  return {
+    name: 'dives-stats',
+    async loadContent() {
+      const filePath = path.join(__dirname, 'static', 'dives.csv');
+      const content = fs.readFileSync(filePath, 'utf8');
+      const lines = content
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0);
+
+      const header = lines[0].split(',');
+      const rows = lines.slice(1).map((line) => line.split(','));
+
+      let totalMinutes = 0;
+      let maxDepth = 0;
+      let maxTime = 0;
+
+      for (const row of rows) {
+        const depthRaw = row[header.indexOf('Deep')].trim();
+        const depth = Number.parseFloat(depthRaw);
+        if (Number.isFinite(depth)) {
+          maxDepth = Math.max(maxDepth, depth);
+        }
+
+        const diveLengthRaw = row[header.indexOf('Dive length')].trim();
+        const diveLength = Number.parseInt(diveLengthRaw.replace(/[^\d-]/g, ''), 10);
+        if (Number.isFinite(diveLength)) {
+          totalMinutes += diveLength;
+          maxTime = Math.max(maxTime, diveLength);
+        }
+      }
+
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+
+      return {
+        rowCount: rows.length,
+        totalTime: `${hours} h, ${minutes} min`,
+        maxDepth: `${maxDepth} m`,
+        maxTime: `${maxTime} min`,
       };
     },
     async contentLoaded({
@@ -149,7 +204,7 @@ const config: Config = {
     ],
   ],
 
-  plugins: [createDrinksStatsPlugin],
+  plugins: [createDrinksStatsPlugin, createDivesStatsPlugin],
 
   themeConfig: {
     algolia: {
