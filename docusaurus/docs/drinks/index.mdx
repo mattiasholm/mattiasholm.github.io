@@ -19,6 +19,29 @@ export function DrinksStats() {
     { label: 'Top glassware', value: stats.topGlassware },
   ];
 
+  return (
+    <div className='boxes'>
+      {statBoxes.map(({ label, value }) => (
+        <div className='statBox' key={label}>
+          <div className='label'>
+            <p>{label}</p>
+          </div>
+          <div className='value'>
+            <p>{value}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function Ratings() {
+  const stats = useGlobalData()['drinks-stats']?.default;
+
+  if (!stats) {
+    return null;
+  }
+
   const ratingLabels = {
     '★☆☆☆☆': 'Terrible',
     '★★☆☆☆': 'Poor',
@@ -28,35 +51,17 @@ export function DrinksStats() {
   };
 
   return (
-    <>
-      <div className='boxes'>
-        {statBoxes.map(({ label, value }) => (
-          <div className='statBox' key={label}>
-            <div className='label'>
-              <p>{label}</p>
-            </div>
-            <div className='value'>
-              <p>{value}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <br />
-      <p><a href='/drinks.csv' download>Download CSV</a></p>
-      <br />
-
-      <div>
-        {stats.ratings.map(({ stars, percentage }) => (
-          <p key={stars}>
-            <span className='rating' title={ratingLabels[stars]}>
-              {stars}
-            </span>
-            <span className='value percentage'>{percentage}%</span>
-          </p>
-        ))}
-      </div>
-    </>
+    <div>
+      <h2>Ratings</h2>
+      {stats.ratings.map(({ stars, percentage }) => (
+        <p key={stars}>
+          <span className='rating' title={ratingLabels[stars]}>
+            {stars}
+          </span>
+          <span className='value percentage'>{percentage}%</span>
+        </p>
+      ))}
+    </div>
   );
 }
 
@@ -83,6 +88,12 @@ export function DrinksCards() {
 
 # Drinks <img src='/img/drinks.png' height='48' className='titleIcon' />
 <DrinksStats />
+
+<br />
+<p><a href='/drinks.csv' download>Download CSV</a></p>
+<br />
+
+<Ratings />
 
 <br />
 
