@@ -15,9 +15,13 @@ export function DivesStats() {
 
   const statBoxes = [
     { label: 'Number of dives', value: stats.rowCount },
-    { label: 'Total duration', value: stats.totalTime },
+    { label: 'Total dive time', value: stats.totalTime },
+    { label: 'Maximum dive time', value: stats.maxTime },
+    { label: 'Average dive time', value: stats.averageTime },
     { label: 'Maximum depth', value: stats.maxDepth },
-    { label: 'Maximum time', value: stats.maxTime },
+    { label: 'Minimum temperature', value: stats.minTemperature },
+    { label: 'Maximum temperature', value: stats.maxTemperature },
+    { label: 'Number of dive sites', value: stats.diveSites },
   ];
 
   return (
