@@ -4,13 +4,17 @@ import type * as Preset from '@docusaurus/preset-classic';
 import fs from 'node:fs';
 import path from 'node:path';
 
+const interpolate = (template: string, values: Record<string, string>): string => {
+  return template.replace(/\{\{(\w+)\}\}/g, (match, key) => values[key] ?? match);
+};
+
 function createDrinksStatsPlugin() {
   return {
     name: 'drinks-stats',
     async loadContent() {
-      const drinksDir = path.join(__dirname, 'docs', 'drinks');
+      const dir = path.join(__dirname, 'docs', 'drinks');
       const files = fs
-        .readdirSync(drinksDir)
+        .readdirSync(dir)
         .filter((file) => /\.md$/i.test(file));
 
       const countsByRating = new Map<number, number>([
@@ -26,7 +30,7 @@ function createDrinksStatsPlugin() {
       const csvRows: Array<[string, string, string, number]> = [];
 
       for (const file of files) {
-        const filePath = path.join(drinksDir, file);
+        const filePath = path.join(dir, file);
         const content = fs.readFileSync(filePath, 'utf8');
 
         const ratingMatches = [...content.matchAll(/^\s*-\s*(★{1,5}☆{0,4})\s*$/gm)];
@@ -102,6 +106,143 @@ function createDrinksStatsPlugin() {
       actions: { setGlobalData: (data: unknown) => void };
     }) {
       actions.setGlobalData(content);
+    },
+  };
+}
+
+function createDivesGeneratorPlugin() {
+  return {
+    name: 'dives-generator',
+    async loadContent() {
+      const csvPath = path.join(__dirname, 'static', 'dives.csv');
+      const content = fs.readFileSync(csvPath, 'utf8');
+      const lines = content
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0);
+
+      const dir = path.join(__dirname, 'docs', 'dives');
+      const files = fs.readdirSync(dir);
+
+      for (const file of files) {
+        if (/^\d+\.md$/.test(file)) {
+          fs.unlinkSync(path.join(dir, file));
+        }
+      }
+
+      const splitRow = (line: string): string[] => {
+        const values: string[] = [];
+        let current = '';
+        let bracketDepth = 0;
+
+        for (let i = 0; i < line.length; i += 1) {
+          const ch = line[i];
+          const next = line[i + 1] ?? '';
+
+          if (ch === '[' && next === '[') {
+            bracketDepth += 1;
+            current += ch;
+            continue;
+          }
+
+          if (ch === ']' && next === ']' && bracketDepth > 0) {
+            bracketDepth -= 1;
+            current += ch;
+            continue;
+          }
+
+          if (ch === ',' && bracketDepth === 0) {
+            values.push(current.trim());
+            current = '';
+            continue;
+          }
+
+          current += ch;
+        }
+
+        values.push(current.trim());
+        return values;
+      };
+
+      const header = splitRow(lines[0]);
+      const rows = lines.slice(1);
+
+      const stripNumber = (value: string): string => {
+        const match = value.match(/-?\d+(?:\.\d+)?/);
+        return match?.[0] ?? '';
+      };
+
+      const formatDate = (value: string): string => {
+        const match = value.trim().match(/^(\d{2})\.(\d{2})\.(\d{2})$/);
+        return `20${match![3]}-${match![2]}-${match![1]}`;
+      };
+
+      const templatePath = path.join(dir, '_template.md');
+      const template = fs.readFileSync(templatePath, 'utf8');
+
+      rows.forEach((row, idx) => {
+        const diveNumber = rows.length - idx;
+
+        const cols = splitRow(row);
+        const getColumn = (col: string) => cols[header.indexOf(col)] || '';
+
+        const date = formatDate(getColumn('Date'));
+        const diveSite = getColumn('Spot title');
+        const lat = getColumn('Spot latitude');
+        const lon = getColumn('Spot longitude');
+        const depth = stripNumber(getColumn('Deep'));
+        const diveTime = getColumn('Dive length');
+        const minTemperature = stripNumber(getColumn('Depth temperature'));
+        const maxTemperature = stripNumber(getColumn('Surface temperature'));
+        const suit = getColumn('Suit');
+        const weight = stripNumber(getColumn('Ballast'));
+        const visibility = stripNumber(getColumn('Visibility'));
+
+        const tankRaw = getColumn('Ballons[[Material,Volume,Gas,Pressure(start-finish)]]');
+        let tankMaterial = '-';
+        let tankVolume = '-';
+        let gas = '-';
+
+        if (tankRaw.startsWith('[[')) {
+          const tankMatch = tankRaw.match(/\[\[(.*?)\]\]/)!;
+          const [materialRaw = '', volumeRaw = '', gasRaw = ''] = tankMatch[1]
+            .split(',')
+            .map((part) => part.trim());
+          tankMaterial = materialRaw || '-';
+          tankVolume = stripNumber(volumeRaw) || '-';
+
+          if (gasRaw) {
+            const nitroxMatch = gasRaw.match(/^Nitrox\s*\((\d+)%?\)$/);
+
+            if (nitroxMatch) {
+              gas = `Nitrox (${nitroxMatch[1]}%)`;
+            } else {
+              gas = gasRaw.charAt(0).toUpperCase() + gasRaw.slice(1).toLowerCase();
+            }
+          }
+        }
+
+        const markdown = interpolate(template, {
+          DIVE_NUMBER: String(diveNumber),
+          LATITUDE: lat,
+          LONGITUDE: lon,
+          DATE: date,
+          DIVE_SITE: diveSite,
+          DEPTH: depth,
+          DIVE_TIME: diveTime,
+          TANK_MATERIAL: tankMaterial,
+          TANK_VOLUME: tankVolume,
+          GAS: gas,
+          LOWEST_TEMPERATURE: minTemperature,
+          HIGHEST_TEMPERATURE: maxTemperature,
+          SUIT: suit,
+          WEIGHT: weight,
+          VISIBILITY: visibility,
+        });
+
+        const filePath = path.join(dir, `${diveNumber}.md`);
+        fs.writeFileSync(filePath, markdown, 'utf8');
+      });
     },
   };
 }
@@ -251,7 +392,7 @@ const config: Config = {
     ],
   ],
 
-  plugins: [createDrinksStatsPlugin, createDivesStatsPlugin],
+  plugins: [createDrinksStatsPlugin, createDivesGeneratorPlugin, createDivesStatsPlugin],
 
   themeConfig: {
     algolia: {
