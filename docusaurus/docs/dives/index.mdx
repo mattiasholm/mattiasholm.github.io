@@ -51,9 +51,9 @@ export function TopDiveSites() {
     <div>
       <h2>Top dive sites</h2>
       <ol>
-        {stats.topDiveSites.map(({ name, count }) => (
+        {stats.topDiveSites.map(({ name, count, lat, lon }) => (
           <li key={name} title={`${count} dive${count === 1 ? '' : 's'}`}>
-            {name}
+            <a href={`https://www.google.com/maps?q=${lat},${lon}`} target='_blank' rel='noopener noreferrer'>{name}</a>
           </li>
         ))}
       </ol>

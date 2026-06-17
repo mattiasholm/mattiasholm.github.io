@@ -127,6 +127,7 @@ function createDivesStatsPlugin() {
       let maxSurfaceTemperature = Number.NEGATIVE_INFINITY;
 
       const diveSiteCounts = new Map<string, number>();
+      const diveSiteCoordinates = new Map<string, { lat: string; lon: string }>();
 
       for (const row of rows) {
         const depthRaw = row[header.indexOf('Deep')].trim();
@@ -156,6 +157,10 @@ function createDivesStatsPlugin() {
 
         const diveSite = row[header.indexOf('Spot title')].trim();
         diveSiteCounts.set(diveSite, (diveSiteCounts.get(diveSite) ?? 0) + 1);
+
+        const lat = row[header.indexOf('Spot latitude')]?.trim() ?? '0';
+        const lon = row[header.indexOf('Spot longitude')]?.trim() ?? '0';
+        diveSiteCoordinates.set(diveSite, { lat, lon });
       }
 
       const hours = Math.floor(totalMinutes / 60);
@@ -165,6 +170,8 @@ function createDivesStatsPlugin() {
         ? Array.from({ length: 5 }, () => ({
           name: '-',
           count: 0,
+          lat: '0',
+          lon: '0',
         }))
         : [...diveSiteCounts.entries()]
           .sort((a, b) => b[1] - a[1])
@@ -172,6 +179,8 @@ function createDivesStatsPlugin() {
           .map(([name, count]) => ({
             name,
             count,
+            lat: diveSiteCoordinates.get(name)?.lat,
+            lon: diveSiteCoordinates.get(name)?.lon,
           }));
 
       return {
