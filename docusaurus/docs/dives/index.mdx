@@ -40,6 +40,27 @@ export function DivesStats() {
   );
 }
 
+export function TopDiveSites() {
+  const stats = useGlobalData()['dives-stats']?.default;
+
+  if (!stats) {
+    return null;
+  }
+
+  return (
+    <div>
+      <h2>Top dive sites</h2>
+      <ol>
+        {stats.topDiveSites.map(({ name, count }) => (
+          <li key={name} title={`${count} dive${count === 1 ? '' : 's'}`}>
+            {name}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 export function DivesCards() {
   const cardBoxes = certsData;
   const { colorMode } = useColorMode();
@@ -74,6 +95,10 @@ export function DivesCards() {
 
 <br />
 <p><a href='/dives.csv' download>Download CSV</a></p>
+<br />
+
+<TopDiveSites />
+
 <br />
 
 <details className='details'>

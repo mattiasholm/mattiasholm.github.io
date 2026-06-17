@@ -126,7 +126,7 @@ function createDivesStatsPlugin() {
       let minDepthTemperature = Number.POSITIVE_INFINITY;
       let maxSurfaceTemperature = Number.NEGATIVE_INFINITY;
 
-      const diveSites = new Set<string>();
+      const diveSiteCounts = new Map<string, number>();
 
       for (const row of rows) {
         const depthRaw = row[header.indexOf('Deep')].trim();
@@ -155,12 +155,20 @@ function createDivesStatsPlugin() {
         }
 
         const diveSite = row[header.indexOf('Spot title')].trim();
-        diveSites.add(diveSite);
+        diveSiteCounts.set(diveSite, (diveSiteCounts.get(diveSite) ?? 0) + 1);
       }
 
       const hours = Math.floor(totalMinutes / 60);
       const minutes = totalMinutes % 60;
       const averageTime = rows.length > 0 ? Math.round(totalMinutes / rows.length) : 0;
+      const topDiveSites = [...diveSiteCounts.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([name, count]) => ({
+          name,
+          count,
+          percentage: rows.length > 0 ? Math.round((count / rows.length) * 100) : 0,
+        }));
 
       return {
         rowCount: rows.length,
@@ -169,8 +177,9 @@ function createDivesStatsPlugin() {
         maxTime: `${maxTime} min`,
         minTemperature: Number.isFinite(minDepthTemperature) ? `${minDepthTemperature} °C` : '-',
         maxTemperature: Number.isFinite(maxSurfaceTemperature) ? `${maxSurfaceTemperature} °C` : '-',
-        diveSites: diveSites.size,
+        diveSites: diveSiteCounts.size,
         averageTime: `${averageTime} min`,
+        topDiveSites,
       };
     },
     async contentLoaded({
