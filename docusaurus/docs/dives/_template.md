@@ -3,7 +3,6 @@ sidebar_position: -{{DIVE_NUMBER}}
 ---
 
 # #{{DIVE_NUMBER}}
-
 <iframe src="https://www.google.com/maps?q={{LATITUDE}},{{LONGITUDE}}&z=15&output=embed" height="200" width="400" style={{ borderRadius: '20px', marginBottom: '1rem' }}/>
 
 <div>
