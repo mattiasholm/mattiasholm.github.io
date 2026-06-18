@@ -326,13 +326,13 @@ function createDivesStatsPlugin() {
 
       return {
         rowCount: rows.length,
+        diveSites: diveSiteCounts.size,
         totalTime: `${hours} h, ${minutes} min`,
-        maxDepth: `${maxDepth} m`,
+        averageTime: `${averageTime} min`,
         maxTime: `${maxTime} min`,
+        maxDepth: `${maxDepth} m`,
         minTemperature: Number.isFinite(minDepthTemperature) ? `${minDepthTemperature} °C` : '-',
         maxTemperature: Number.isFinite(maxSurfaceTemperature) ? `${maxSurfaceTemperature} °C` : '-',
-        diveSites: diveSiteCounts.size,
-        averageTime: `${averageTime} min`,
         topDiveSites,
       };
     },
