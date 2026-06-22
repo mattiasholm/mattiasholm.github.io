@@ -1,6 +1,14 @@
 :root {
   --ifm-color-primary: #ff5a5a;
-  --background-color: #2e2e2e;
+}
+
+.hero {
+  --ifm-hero-background-color: #2e2e2e;
+  --ifm-hero-text-color: var(--ifm-font-color-base);
+}
+
+[data-theme='light'] .hero {
+  --ifm-hero-background-color: var(--ifm-color-emphasis-300);
 }
 
 @media (hover: hover) {
@@ -57,8 +65,13 @@
   }
 }
 
-.DocSearch-Screen-Icon svg {
-  stroke: var(--ifm-color-primary) !important;
+.DocSearch-Form {
+  border-bottom: 0 !important;
+}
+
+.DocSearch-Hit[aria-selected='true'] a,
+.search-result-match {
+  background-color: var(--ifm-color-emphasis-200) !important;
 }
 
 .DocSearch-MagnifierLabel .DocSearch-Search-Icon,
@@ -66,16 +79,12 @@
   color: var(--ifm-color-primary) !important;
 }
 
+.DocSearch-Screen-Icon svg {
+  stroke: var(--ifm-color-primary);
+}
+
 .DocSearch-Hit-action svg path {
   fill: none !important;
-}
-
-.DocSearch-HitsFooter a {
-  border-bottom: 0 !important;
-}
-
-.DocSearch-HitsFooter a:hover {
-  color: var(--ifm-color-primary);
 }
 
 .DocSearch-Clear,
@@ -89,17 +98,16 @@
   background-color: transparent !important;
 }
 
-.DocSearch-Form {
-  border-bottom: 0 !important;
-}
-
 .DocSearch-Divider {
   border-inline-start: 1px solid var(--ifm-color-emphasis-200) !important;
 }
 
-.DocSearch-Hit[aria-selected='true'] a,
-.search-result-match {
-  background-color: var(--ifm-color-emphasis-200) !important;
+.DocSearch-HitsFooter a {
+  border-bottom: 0 !important;
+}
+
+.DocSearch-HitsFooter a:hover {
+  color: var(--ifm-color-primary);
 }
 
 input[type='search']::-webkit-search-cancel-button {
@@ -111,11 +119,6 @@ input[type='search']::-webkit-search-cancel-button {
 .container.margin-vert--lg h1,
 [class*='searchLogoColumn'] {
   display: none !important;
-}
-
-.hero {
-  --ifm-hero-background-color: var(--background-color);
-  --ifm-hero-text-color: var(--ifm-color-white);
 }
 
 .docCardList .card p {
