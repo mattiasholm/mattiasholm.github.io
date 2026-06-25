@@ -14,6 +14,8 @@
   width: 90px;
 }
 
-.featureIcon:hover {
-  opacity: 0.5;
+@media (hover: hover) {
+  .featureIcon:hover {
+    opacity: 0.5;
+  }
 }
