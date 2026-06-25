@@ -36,16 +36,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Check out repository (drinks)
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: mattiasholm/drinks
           path: drinks
 
       - name: Check out repository (dives)
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: mattiasholm/dives
           path: dives
