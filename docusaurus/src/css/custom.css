@@ -109,8 +109,10 @@
   border-bottom: 0 !important;
 }
 
-.DocSearch-HitsFooter a:hover {
-  color: var(--ifm-color-primary);
+@media (hover: hover) {
+  .DocSearch-HitsFooter a:hover {
+    color: var(--ifm-color-primary);
+  }
 }
 
 input[type='search']::-webkit-search-cancel-button {
