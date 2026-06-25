@@ -79,10 +79,10 @@ export function DivesCards() {
       {cardBoxes.map(({ name, id, date, logo }) => (
         <div className='cardBox certDetails' key={id}>
           <div className='label'>
-            <img src={getLogo(logo)} className='logo'></img>
+            <img src={getLogo(logo)} className='certLogo'></img>
             {name}
           </div>
-          <div className='id'>{id}</div>
+          <div className='certId'>{id}</div>
           <div>{date}</div>
         </div>
       ))}

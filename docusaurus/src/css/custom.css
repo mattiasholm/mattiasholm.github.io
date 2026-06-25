@@ -121,17 +121,17 @@ input[type='search']::-webkit-search-cancel-button {
   display: none !important;
 }
 
+.titleIcon {
+  vertical-align: top;
+  margin-top: 0.35rem;
+}
+
 .docCardList .card p {
   display: none;
 }
 
 .docCardList .card h2 {
   margin-bottom: 0;
-}
-
-.titleIcon {
-  vertical-align: top;
-  margin-top: 0.35rem;
 }
 
 .boxes {
@@ -151,31 +151,6 @@ input[type='search']::-webkit-search-cancel-button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-.cardBox {
-  background-color: var(--ifm-color-emphasis-100);
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 20px;
-  width: 340px;
-  height: 214px;
-  margin: 5px;
-}
-
-.certDetails {
-  padding: 20px;
-  padding-top: 28px;
-  text-align: right;
-
-}
-
-.syrupDetails {
-  padding: 55px;
-}
-
-.syrupDetails .label {
-  color: var(--ifm-color-primary);
-  margin-bottom: 0.25rem;
 }
 
 .label {
@@ -199,13 +174,38 @@ input[type='search']::-webkit-search-cancel-button {
   margin-left: 1rem;
 }
 
-.logo {
+.cardBox {
+  background-color: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 20px;
+  width: 340px;
+  height: 214px;
+  margin: 5px;
+}
+
+.syrupDetails {
+  padding: 55px;
+}
+
+.syrupDetails .label {
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.certDetails {
+  padding: 20px;
+  padding-top: 28px;
+  text-align: right;
+
+}
+
+.certLogo {
   height: 30px;
   display: block;
   margin-bottom: 2rem;
 }
 
-.id {
+.certId {
   color: var(--ifm-color-primary);
 }
 
