@@ -92,10 +92,13 @@
   color: var(--ifm-font-color-base) !important;
 }
 
-.DocSearch-Clear:hover,
-.DocSearch-Close:hover {
-  color: var(--ifm-color-primary) !important;
-  background-color: transparent !important;
+@media (hover: hover) {
+
+  .DocSearch-Clear:hover,
+  .DocSearch-Close:hover {
+    color: var(--ifm-color-primary) !important;
+    background-color: transparent !important;
+  }
 }
 
 .DocSearch-Divider {
