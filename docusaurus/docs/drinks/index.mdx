@@ -3,7 +3,7 @@ title: Drinks
 ---
 
 import useGlobalData from '@docusaurus/useGlobalData';
-import syrupsData from '@site/static/syrups.json';
+import syrupsData from '@site/static/drinks/syrups.json';
 
 export function DrinksStats() {
   const stats = useGlobalData()['drinks-stats']?.default;
@@ -106,5 +106,5 @@ export function DrinksCards() {
   <summary>Show syrup recipes</summary>
   <DrinksCards />
   <br />
-  <p><a href='/syrups.json' download className='downloadLink'>Download JSON</a></p>
+  <p><a href='/drinks/syrups.json' download className='downloadLink'>Download JSON</a></p>
 </details>
