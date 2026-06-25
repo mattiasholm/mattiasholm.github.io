@@ -65,7 +65,9 @@ export function DivesCards() {
   const cardBoxes = certsData;
   const { colorMode } = useColorMode();
 
-  const getLogo = (logo) => {
+  const getLogo = (name) => {
+    const logo = name.startsWith('SSI') ? '/img/ssi.svg' : '/img/padi.svg';
+
     if (colorMode === 'light') {
       return logo
         .replace('/img/padi.svg', '/img/padi-black.svg')
@@ -76,10 +78,10 @@ export function DivesCards() {
 
   return (
     <div className='boxes'>
-      {cardBoxes.map(({ name, id, date, logo }) => (
+      {cardBoxes.map(({ name, id, date }) => (
         <div className='cardBox certDetails' key={id}>
           <div className='label'>
-            <img src={getLogo(logo)} className='certLogo'></img>
+            <img src={getLogo(name)} className='certLogo'></img>
             {name}
           </div>
           <div className='certId'>{id}</div>
