@@ -15,7 +15,7 @@ function createDrinksStatsPlugin() {
       const dir = path.join(__dirname, 'docs', 'drinks');
       const files = fs
         .readdirSync(dir)
-        .filter((file) => /\.md$/i.test(file));
+        .filter((file) => /\.md$/.test(file));
 
       const countsByRating = new Map<number, number>([
         [1, 0],
@@ -51,7 +51,7 @@ function createDrinksStatsPlugin() {
         spiritCounts.set(spirit, (spiritCounts.get(spirit) ?? 0) + 1);
 
         const glasswareSection = content.match(/## Glassware\n([\s\S]*?)(?=##|\Z)/)![1];
-        const glassware = glasswareSection.match(/^- (.+)$/m)![1].trim().replace(/ glass$/i, '');
+        const glassware = glasswareSection.match(/^- (.+)$/m)![1].trim().replace(/ glass$/, '');
         glassCounts.set(glassware, (glassCounts.get(glassware) ?? 0) + 1);
 
         csvRows.push([title, spirit, glassware, stars]);
@@ -106,6 +106,67 @@ function createDrinksStatsPlugin() {
       actions: { setGlobalData: (data: unknown) => void };
     }) {
       actions.setGlobalData(content);
+    },
+  };
+}
+
+function createTunesGeneratorPlugin() {
+  return {
+    name: 'tunes-generator',
+    async loadContent() {
+      const sourcePath = path.join(__dirname, 'static', 'tunes');
+      const docsPath = path.join(__dirname, 'docs', 'tunes');
+
+      const templatePath = path.join(docsPath, '_template.md');
+      const categoryPath = path.join(docsPath, '_category.mdx');
+
+      const template = fs.readFileSync(templatePath, 'utf8');
+      const categoryTemplate = fs.readFileSync(categoryPath, 'utf8');
+
+      const docsChildren = fs.readdirSync(docsPath, { withFileTypes: true });
+      for (const entry of docsChildren) {
+        if (entry.isDirectory()) {
+          fs.rmSync(path.join(docsPath, entry.name), { recursive: true });
+        }
+      }
+
+      const categories = fs
+        .readdirSync(sourcePath, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name)
+        .sort();
+
+      for (const category of categories) {
+        const sourceCategoryDir = path.join(sourcePath, category);
+        const docsCategoryDir = path.join(docsPath, category);
+        fs.mkdirSync(docsCategoryDir, { recursive: true });
+
+        const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+
+        const categoryPage = interpolate(categoryTemplate, {
+          CATEGORY_NAME: categoryName,
+        });
+        fs.writeFileSync(path.join(docsCategoryDir, 'index.mdx'), categoryPage, 'utf8');
+
+        const files = fs
+          .readdirSync(sourceCategoryDir)
+          .filter((file) => /\.abc$/.test(file))
+          .sort((a, b) => a.localeCompare(b));
+
+        for (const file of files) {
+          const fileName = file.replace(/\.abc$/, '');
+          const abcContent = fs.readFileSync(path.join(sourceCategoryDir, file), 'utf8');
+          const encodedCategory = encodeURIComponent(category);
+          const encodedFile = encodeURIComponent(file);
+
+          const markdown = interpolate(template, {
+            ABC_CONTENT: abcContent,
+            DOWNLOAD_URL: `/tunes/${encodedCategory}/${encodedFile}`,
+          });
+
+          fs.writeFileSync(path.join(docsCategoryDir, `${fileName}.md`), `${markdown}\n`, 'utf8');
+        }
+      }
     },
   };
 }
@@ -392,7 +453,12 @@ const config: Config = {
     ],
   ],
 
-  plugins: [createDrinksStatsPlugin, createDivesGeneratorPlugin, createDivesStatsPlugin],
+  plugins: [
+    createDrinksStatsPlugin,
+    createTunesGeneratorPlugin,
+    createDivesGeneratorPlugin,
+    createDivesStatsPlugin,
+  ],
 
   themeConfig: {
     algolia: {

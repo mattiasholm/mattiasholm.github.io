@@ -1,7 +1,3 @@
----
-title: {{TUNE_NAME}}
----
-
 ```abc
 {{ABC_CONTENT}}
 ```
