@@ -44,6 +44,12 @@ jobs:
           repository: mattiasholm/drinks
           path: drinks
 
+      - name: Check out repository (tunes)
+        uses: actions/checkout@v7
+        with:
+          repository: mattiasholm/tunes
+          path: tunes
+
       - name: Check out repository (dives)
         uses: actions/checkout@v7
         with:
@@ -52,6 +58,10 @@ jobs:
 
       - name: Copy files (drinks)
         run: cp drinks/drinks/*.md docusaurus/docs/drinks && cp drinks/syrups.json docusaurus/static/drinks/syrups.json
+        working-directory: .
+
+      - name: Copy files (tunes)
+        run: cp -r tunes/*/ docusaurus/static/tunes/
         working-directory: .
 
       - name: Copy files (dives)
