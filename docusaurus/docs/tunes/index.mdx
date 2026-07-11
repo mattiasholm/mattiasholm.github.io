@@ -3,12 +3,19 @@ title: Tunes
 ---
 
 import DocCardList from '@theme/DocCardList';
+import useGlobalData from '@docusaurus/useGlobalData';
 
 export function TunesStats() {
+  const stats = useGlobalData()['tunes-stats']?.default;
+
+  if (!stats) {
+    return null;
+  }
+
   const statBoxes = [
-    { label: 'Number of tunes', value: '207' },
-    { label: 'Top tune type', value: 'Reel' },
-    { label: 'Top key signature', value: 'D major' },
+    { label: 'Number of tunes', value: stats.fileCount },
+    { label: 'Top tune type', value: stats.topTuneType },
+    { label: 'Top key signature', value: stats.topKeySignature },
   ];
 
   return (

@@ -171,6 +171,68 @@ function createTunesGeneratorPlugin() {
   };
 }
 
+function createTunesStatsPlugin() {
+  return {
+    name: 'tunes-stats',
+    async loadContent() {
+      const sourcePath = path.join(__dirname, 'static', 'tunes');
+      const categories = fs
+        .readdirSync(sourcePath, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name)
+        .sort();
+
+      const tuneTypeCounts = new Map<string, number>();
+      const keySignatureCounts = new Map<string, number>();
+      let fileCount = 0;
+
+      for (const category of categories) {
+        const sourceCategoryDir = path.join(sourcePath, category);
+        const files = fs
+          .readdirSync(sourceCategoryDir)
+          .filter((file) => /\.abc$/.test(file))
+          .sort((a, b) => a.localeCompare(b));
+
+        fileCount += files.length;
+
+        const tuneType = category.charAt(0).toUpperCase() + category.slice(1);
+        tuneTypeCounts.set(tuneType, (tuneTypeCounts.get(tuneType) ?? 0) + files.length);
+
+        for (const file of files) {
+          const filePath = path.join(sourceCategoryDir, file);
+          const content = fs.readFileSync(filePath, 'utf8');
+          const keySignature = content.match(/^K:(.+)$/m)![1];
+
+          keySignatureCounts.set(keySignature, (keySignatureCounts.get(keySignature) ?? 0) + 1);
+        }
+      }
+
+      const topTuneType = [...tuneTypeCounts.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .at(0)?.[0] ?? '-';
+
+      const topKeySignature = [...keySignatureCounts.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .at(0)?.[0] ?? '-';
+
+      return {
+        fileCount,
+        topTuneType,
+        topKeySignature,
+      };
+    },
+    async contentLoaded({
+      content,
+      actions,
+    }: {
+      content: unknown;
+      actions: { setGlobalData: (data: unknown) => void };
+    }) {
+      actions.setGlobalData(content);
+    },
+  };
+}
+
 function createDivesGeneratorPlugin() {
   return {
     name: 'dives-generator',
@@ -456,6 +518,7 @@ const config: Config = {
   plugins: [
     createDrinksStatsPlugin,
     createTunesGeneratorPlugin,
+    createTunesStatsPlugin,
     createDivesGeneratorPlugin,
     createDivesStatsPlugin,
   ],
