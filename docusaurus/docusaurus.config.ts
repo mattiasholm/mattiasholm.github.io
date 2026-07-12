@@ -184,6 +184,7 @@ function createTunesStatsPlugin() {
 
       const tuneTypeCounts = new Map<string, number>();
       const keySignatureCounts = new Map<string, number>();
+      const timeSignatureCounts = new Map<string, number>();
       let fileCount = 0;
 
       for (const category of categories) {
@@ -200,9 +201,11 @@ function createTunesStatsPlugin() {
           const content = fs.readFileSync(filePath, 'utf8');
           const tuneTypeRaw = content.match(/^R:(.+)$/m)![1];
           const tuneType = tuneTypeRaw.charAt(0).toUpperCase() + tuneTypeRaw.slice(1);
+          const timeSignature = content.match(/^M:(.+)$/m)![1];
           const keySignature = content.match(/^K:(.+)$/m)![1];
 
           tuneTypeCounts.set(tuneType, (tuneTypeCounts.get(tuneType) ?? 0) + 1);
+          timeSignatureCounts.set(timeSignature, (timeSignatureCounts.get(timeSignature) ?? 0) + 1);
           keySignatureCounts.set(keySignature, (keySignatureCounts.get(keySignature) ?? 0) + 1);
         }
       }
@@ -215,9 +218,14 @@ function createTunesStatsPlugin() {
         .sort((a, b) => b[1] - a[1])
         .at(0)?.[0] ?? '-';
 
+      const topTimeSignature = [...timeSignatureCounts.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .at(0)?.[0] ?? '-';
+
       return {
         fileCount,
         topTuneType,
+        topTimeSignature,
         topKeySignature,
       };
     },
