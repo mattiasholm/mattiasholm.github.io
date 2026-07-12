@@ -195,14 +195,14 @@ function createTunesStatsPlugin() {
 
         fileCount += files.length;
 
-        const tuneType = category.charAt(0).toUpperCase() + category.slice(1);
-        tuneTypeCounts.set(tuneType, (tuneTypeCounts.get(tuneType) ?? 0) + files.length);
-
         for (const file of files) {
           const filePath = path.join(sourceCategoryDir, file);
           const content = fs.readFileSync(filePath, 'utf8');
+          const tuneTypeRaw = content.match(/^R:(.+)$/m)![1];
+          const tuneType = tuneTypeRaw.charAt(0).toUpperCase() + tuneTypeRaw.slice(1);
           const keySignature = content.match(/^K:(.+)$/m)![1];
 
+          tuneTypeCounts.set(tuneType, (tuneTypeCounts.get(tuneType) ?? 0) + 1);
           keySignatureCounts.set(keySignature, (keySignatureCounts.get(keySignature) ?? 0) + 1);
         }
       }
