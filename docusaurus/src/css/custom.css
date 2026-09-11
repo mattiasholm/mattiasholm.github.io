@@ -235,3 +235,7 @@ input[type='search']::-webkit-search-cancel-button {
   color: var(--ifm-color-primary);
   text-decoration: underline;
 }
+
+pre[class~='language-abc'] code {
+  white-space: pre-wrap;
+}
