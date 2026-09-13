@@ -1,5 +1,46 @@
 # {{CATEGORY_NAME}}
 
-import DocCardList from '@theme/DocCardList';
+import useGlobalData from '@docusaurus/useGlobalData';
+import React, { useState } from 'react';
 
-<DocCardList className='docCardList' />
+export function KeyFilter({ category }) {
+  const stats = useGlobalData()['tunes-stats']?.default;
+  const [selectedKey, setSelectedKey] = useState('All');
+
+  if (!stats) {
+    return null;
+  }
+
+  const tunes = stats.tunesByCategory?.[category] ?? [];
+  const keys = ['All', ...Array.from(new Set(tunes.map((tune) => tune.keySignature))).sort()];
+  const filtered = selectedKey === 'All' ? tunes : tunes.filter((tune) => tune.keySignature === selectedKey);
+
+  return (
+    <div>
+      <div>
+        {keys.map((key) => (
+          <button
+            key={key}
+            onClick={() => setSelectedKey(key)}
+            style={{
+              marginRight: '0.5rem',
+              marginBottom: '0.5rem',
+              fontWeight: selectedKey === key ? 'bold' : 'normal',
+            }}
+          >
+            {key}
+          </button>
+        ))}
+      </div>
+      <ul>
+        {filtered.map(({ title, url }) => (
+          <li key={url}>
+            <a href={url}>{title}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+<KeyFilter category='{{CATEGORY_SLUG}}' />

@@ -145,6 +145,7 @@ function createTunesGeneratorPlugin() {
 
         const categoryPage = interpolate(categoryTemplate, {
           CATEGORY_NAME: categoryName,
+          CATEGORY_SLUG: category,
         });
         fs.writeFileSync(path.join(docsCategoryDir, 'index.mdx'), categoryPage, 'utf8');
 
@@ -184,7 +185,7 @@ function createTunesStatsPlugin() {
 
       const tuneTypeCounts = new Map<string, number>();
       const keySignatureCounts = new Map<string, number>();
-      const timeSignatureCounts = new Map<string, number>();
+      const tunesByCategory = new Map<string, Array<{ title: string; url: string; keySignature: string }>>();
       const csvRows: Array<[string, string, string, string]> = [];
       let fileCount = 0;
 
@@ -207,8 +208,13 @@ function createTunesStatsPlugin() {
           const keySignature = content.match(/^K:(.+)$/m)![1];
 
           tuneTypeCounts.set(tuneType, (tuneTypeCounts.get(tuneType) ?? 0) + 1);
-          timeSignatureCounts.set(timeSignature, (timeSignatureCounts.get(timeSignature) ?? 0) + 1);
           keySignatureCounts.set(keySignature, (keySignatureCounts.get(keySignature) ?? 0) + 1);
+
+          const url = `/tunes/${encodeURIComponent(category)}/${encodeURIComponent(file.replace(/\.abc$/, ''))}`;
+          const categoryTunes = tunesByCategory.get(category) ?? [];
+          categoryTunes.push({ title, url, keySignature });
+          tunesByCategory.set(category, categoryTunes);
+
           csvRows.push([title, tuneType, timeSignature, keySignature]);
         }
       }
@@ -228,15 +234,17 @@ function createTunesStatsPlugin() {
         .sort((a, b) => b[1] - a[1])
         .at(0)?.[0] ?? '-';
 
-      const topTimeSignature = [...timeSignatureCounts.entries()]
-        .sort((a, b) => b[1] - a[1])
-        .at(0)?.[0] ?? '-';
-
       return {
         fileCount,
+        tuneTypeCount: tuneTypeCounts.size,
         topTuneType,
-        topTimeSignature,
         topKeySignature,
+        tunesByCategory: Object.fromEntries(
+          [...tunesByCategory.entries()].map(([category, tunes]) => [
+            category,
+            [...tunes].sort((a, b) => a.title.localeCompare(b.title)),
+          ]),
+        ),
       };
     },
     async contentLoaded({
