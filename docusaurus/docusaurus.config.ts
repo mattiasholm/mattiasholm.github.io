@@ -454,6 +454,7 @@ function createDivesStatsPlugin() {
       }
 
       const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
       const averageTime = rows.length > 0 ? Math.round(totalMinutes / rows.length) : 0;
       const topDiveSites = diveSiteCounts.size === 0
         ? Array.from({ length: 5 }, () => ({
@@ -475,7 +476,7 @@ function createDivesStatsPlugin() {
       return {
         rowCount: rows.length,
         diveSites: diveSiteCounts.size,
-        totalTime: `${hours} h`,
+        totalTime: `${hours}:${String(minutes).padStart(2, '0')}`,
         averageTime: `${averageTime} min`,
         maxTime: `${maxTime} min`,
         maxDepth: `${maxDepth} m`,
