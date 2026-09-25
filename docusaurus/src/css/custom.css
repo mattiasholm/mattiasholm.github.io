@@ -214,6 +214,12 @@ input[type='search']::-webkit-search-cancel-button {
   color: var(--ifm-color-primary);
 }
 
+.mapEmbed {
+  border-radius: 20px;
+  margin-bottom: 1rem;
+  max-width: 400px;
+}
+
 .details {
   background-color: var(--ifm-card-background-color);
   --ifm-alert-border-color: var(--ifm-color-emphasis-200);
@@ -238,4 +244,19 @@ input[type='search']::-webkit-search-cancel-button {
 
 pre[class~='language-abc'] code {
   white-space: pre-wrap;
+}
+
+.keyButton {
+  margin-right: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--ifm-card-background-color);
+  color: var(--ifm-font-color-base);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.25rem;
+}
+
+.keyButton--selected {
+  font-weight: bold;
+  border-color: var(--ifm-color-primary);
 }

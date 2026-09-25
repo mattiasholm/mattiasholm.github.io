@@ -22,11 +22,7 @@ export function KeyFilter({ category }) {
           <button
             key={key}
             onClick={() => setSelectedKey(key)}
-            style={{
-              marginRight: '0.5rem',
-              marginBottom: '0.5rem',
-              fontWeight: selectedKey === key ? 'bold' : 'normal',
-            }}
+            className={selectedKey === key ? 'keyButton keyButton--selected' : 'keyButton'}
           >
             {key}
           </button>
