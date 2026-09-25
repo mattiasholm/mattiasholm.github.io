@@ -131,12 +131,8 @@ input[type='search']::-webkit-search-cancel-button {
   margin-top: 0.35rem;
 }
 
-.docCardList .card p {
+.theme-doc-card-icon {
   display: none;
-}
-
-.docCardList .card h2 {
-  margin-bottom: 0;
 }
 
 .boxes {
