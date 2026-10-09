@@ -236,6 +236,7 @@ function createTunesStatsPlugin() {
 
       return {
         fileCount,
+        categoryCount: categories.length,
         tuneTypeCount: tuneTypeCounts.size,
         topTuneType,
         topKeySignature,

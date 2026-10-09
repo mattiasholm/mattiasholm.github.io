@@ -35,6 +35,16 @@ export function TunesStats() {
   );
 }
 
+export function TunesCategories() {
+  const categoryCount = useGlobalData()['tunes-stats']?.default?.categoryCount;
+
+  if (!categoryCount) {
+    return null;
+  }
+
+  return <DocCardList />;
+}
+
 # Tunes <img src='/img/tunes.png' height='48' className='titleIcon' />
 <TunesStats />
 
@@ -42,4 +52,4 @@ export function TunesStats() {
 <p><a href='/tunes.csv' download>Download CSV</a></p>
 <br />
 
-<DocCardList />
+<TunesCategories />
