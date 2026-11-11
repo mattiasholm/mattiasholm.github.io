@@ -50,9 +50,9 @@ export default function FilterTunes() {
     <div>
       <div className={styles.filters}>
         <label>
-          Tune type
+          Type
           <select value={tuneType} onChange={(event) => updateFilters({ type: event.target.value })}>
-            <option value=''>All tune types</option>
+            <option value=''>All types</option>
             {tuneTypes.map((value) => <option key={value}>{value}</option>)}
           </select>
         </label>
