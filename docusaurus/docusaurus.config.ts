@@ -3,6 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import fs from 'node:fs';
 import path from 'node:path';
+import type { Drink } from './src/components/FilterDrinks';
 
 const interpolate = (template: string, values: Record<string, string>): string => {
   return template.replace(/\{\{(\w+)\}\}/g, (match, key) => values[key] ?? match);
@@ -27,6 +28,7 @@ function createDrinksStatsPlugin() {
 
       const spiritCounts = new Map<string, number>();
       const glassCounts = new Map<string, number>();
+      const drinks: Drink[] = [];
       const csvRows: Array<[string, string, string, number]> = [];
 
       for (const file of files) {
@@ -44,15 +46,29 @@ function createDrinksStatsPlugin() {
         const title = content.match(/^# (.+)$/m)![1].trim();
 
         const ingredientSection = content.match(/## Ingredients\n([\s\S]*?)(?=##|\Z)/)![1];
-        const firstIngredient = ingredientSection.match(/^- (.+)$/m)![1];
-        const backtickMatch = firstIngredient.match(/`([^`]+)`/)!;
-        const normalized = backtickMatch[1].trim();
-        const spirit = normalized.charAt(0).toUpperCase() + normalized.slice(1);
+        const ingredients = [...ingredientSection.matchAll(/^- .*?`([^`]+)`/gm)]
+          .map(([, ingredient]) => {
+            const name = ingredient.trim();
+            return name.charAt(0).toUpperCase() + name.slice(1);
+          });
+        const spirit = ingredients[0];
+        if (spirit === undefined) {
+          throw new Error(`No ingredients found for ${file}`);
+        }
         spiritCounts.set(spirit, (spiritCounts.get(spirit) ?? 0) + 1);
 
         const glasswareSection = content.match(/## Glassware\n([\s\S]*?)(?=##|\Z)/)![1];
         const glassware = glasswareSection.match(/^- (.+)$/m)![1].trim().replace(/ glass$/, '');
         glassCounts.set(glassware, (glassCounts.get(glassware) ?? 0) + 1);
+
+        drinks.push({
+          id: `drinks/${path.basename(file, '.md')}`,
+          title,
+          spirit,
+          ingredients,
+          glassware,
+          rating: stars,
+        });
 
         csvRows.push([title, spirit, glassware, stars]);
       }
@@ -88,6 +104,7 @@ function createDrinksStatsPlugin() {
         averageRating,
         topSpirit,
         topGlassware,
+        drinks: drinks.sort((a, b) => a.title.localeCompare(b.title)),
         ratings: ['★☆☆☆☆', '★★☆☆☆', '★★★☆☆', '★★★★☆', '★★★★★'].map((stars, index) => {
           const count = countsByRating.get(index + 1) ?? 0;
           return {
