@@ -217,6 +217,7 @@ function createTunesStatsPlugin() {
 
       const tuneTypeCounts = new Map<string, number>();
       const keySignatureCounts = new Map<string, number>();
+      const modeCounts = new Map<string, number>();
       const tunesByCategory = new Map<string, Array<{ title: string; url: string; keySignature: string }>>();
       const tunes: Tune[] = [];
       const csvRows: Array<[string, string, string, string]> = [];
@@ -239,18 +240,20 @@ function createTunesStatsPlugin() {
           const tuneType = tuneTypeRaw.charAt(0).toUpperCase() + tuneTypeRaw.slice(1);
           const timeSignature = content.match(/^M:(.+)$/m)![1];
           const keySignature = content.match(/^K:(.+)$/m)![1];
+          const mode = getTuneMode(keySignature);
 
           tunes.push({
             id: `tunes/${category}/${path.basename(file, '.abc')}`,
             title,
             tuneType,
             keySignature,
-            mode: getTuneMode(keySignature),
+            mode,
             tonic: keySignature.trim().replace(/(?:dor|mix|m)$/, ''),
           });
 
           tuneTypeCounts.set(tuneType, (tuneTypeCounts.get(tuneType) ?? 0) + 1);
           keySignatureCounts.set(keySignature, (keySignatureCounts.get(keySignature) ?? 0) + 1);
+          modeCounts.set(mode, (modeCounts.get(mode) ?? 0) + 1);
 
           const url = `/tunes/${encodeURIComponent(category)}/${encodeURIComponent(file.replace(/\.abc$/, ''))}`;
           const categoryTunes = tunesByCategory.get(category) ?? [];
@@ -276,10 +279,14 @@ function createTunesStatsPlugin() {
         .sort((a, b) => b[1] - a[1])
         .at(0)?.[0] ?? '-';
 
+      const topMode = [...modeCounts.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .at(0)?.[0] ?? '-';
+
       return {
         fileCount,
         categoryCount: categories.length,
-        tuneTypeCount: tuneTypeCounts.size,
+        topMode,
         topTuneType,
         topKeySignature,
         tunes: tunes.sort((a, b) => a.title.localeCompare(b.title)),
