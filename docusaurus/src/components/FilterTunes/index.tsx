@@ -10,6 +10,7 @@ export interface Tune {
   title: string;
   tuneType: string;
   keySignature: string;
+  mode: string;
 }
 
 export default function FilterTunes() {
@@ -23,7 +24,8 @@ export default function FilterTunes() {
   const searchParams = new URLSearchParams(location.search);
   const tuneType = searchParams.get('type') ?? '';
   const keySignature = searchParams.get('key') ?? '';
-  const updateFilters = (filters: Partial<Record<'type' | 'key', string>>) => {
+  const mode = searchParams.get('mode') ?? '';
+  const updateFilters = (filters: Partial<Record<'type' | 'key' | 'mode', string>>) => {
     const params = new URLSearchParams(location.search);
     for (const [key, value] of Object.entries(filters)) {
       if (value) {
@@ -36,9 +38,11 @@ export default function FilterTunes() {
   };
   const tuneTypes = [...new Set(tunes.map((tune) => tune.tuneType))].sort();
   const keys = [...new Set(tunes.map((tune) => tune.keySignature))].sort();
+  const modes = [...new Set(tunes.map((tune) => tune.mode))].sort();
   const filtered = tunes.filter((tune) =>
     (!tuneType || tune.tuneType === tuneType)
-    && (!keySignature || tune.keySignature === keySignature),
+    && (!keySignature || tune.keySignature === keySignature)
+    && (!mode || tune.mode === mode),
   );
 
   return (
@@ -58,11 +62,18 @@ export default function FilterTunes() {
             {keys.map((value) => <option key={value}>{value}</option>)}
           </select>
         </label>
+        <label>
+          Mode
+          <select value={mode} onChange={(event) => updateFilters({ mode: event.target.value })}>
+            <option value=''>All modes</option>
+            {modes.map((value) => <option key={value}>{value}</option>)}
+          </select>
+        </label>
         <button
           type='button'
           className='button button--secondary'
-          disabled={!tuneType && !keySignature}
-          onClick={() => updateFilters({ type: '', key: '' })}
+          disabled={!tuneType && !keySignature && !mode}
+          onClick={() => updateFilters({ type: '', key: '', mode: '' })}
         >
           Clear filters
         </button>

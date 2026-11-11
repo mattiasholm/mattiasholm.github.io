@@ -190,6 +190,20 @@ function createTunesGeneratorPlugin() {
   };
 }
 
+function getTuneMode(keySignature: string): string {
+  const match = keySignature.trim().match(/^[A-G][#b]?(m|dor|mix)?$/);
+  if (!match) {
+    throw new Error(`Unsupported ABC key signature: ${keySignature}`);
+  }
+
+  switch (match[1]) {
+    case 'm': return 'Minor';
+    case 'dor': return 'Dorian';
+    case 'mix': return 'Mixolydian';
+    default: return 'Major';
+  }
+}
+
 function createTunesStatsPlugin() {
   return {
     name: 'tunes-stats',
@@ -231,6 +245,7 @@ function createTunesStatsPlugin() {
             title,
             tuneType,
             keySignature,
+            mode: getTuneMode(keySignature),
           });
 
           tuneTypeCounts.set(tuneType, (tuneTypeCounts.get(tuneType) ?? 0) + 1);
