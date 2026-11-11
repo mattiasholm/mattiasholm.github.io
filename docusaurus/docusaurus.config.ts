@@ -4,6 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import fs from 'node:fs';
 import path from 'node:path';
 import type { Drink } from './src/components/FilterDrinks';
+import type { Tune } from './src/components/FilterTunes';
 
 const interpolate = (template: string, values: Record<string, string>): string => {
   return template.replace(/\{\{(\w+)\}\}/g, (match, key) => values[key] ?? match);
@@ -182,7 +183,7 @@ function createTunesGeneratorPlugin() {
             DOWNLOAD_URL: `/tunes/${encodedCategory}/${encodedFile}`,
           });
 
-          fs.writeFileSync(path.join(docsCategoryDir, `${fileName}.md`), `${markdown}\n`, 'utf8');
+          fs.writeFileSync(path.join(docsCategoryDir, `${fileName}.md`), markdown, 'utf8');
         }
       }
     },
@@ -203,6 +204,7 @@ function createTunesStatsPlugin() {
       const tuneTypeCounts = new Map<string, number>();
       const keySignatureCounts = new Map<string, number>();
       const tunesByCategory = new Map<string, Array<{ title: string; url: string; keySignature: string }>>();
+      const tunes: Tune[] = [];
       const csvRows: Array<[string, string, string, string]> = [];
       let fileCount = 0;
 
@@ -223,6 +225,13 @@ function createTunesStatsPlugin() {
           const tuneType = tuneTypeRaw.charAt(0).toUpperCase() + tuneTypeRaw.slice(1);
           const timeSignature = content.match(/^M:(.+)$/m)![1];
           const keySignature = content.match(/^K:(.+)$/m)![1];
+
+          tunes.push({
+            id: `tunes/${category}/${path.basename(file, '.abc')}`,
+            title,
+            tuneType,
+            keySignature,
+          });
 
           tuneTypeCounts.set(tuneType, (tuneTypeCounts.get(tuneType) ?? 0) + 1);
           keySignatureCounts.set(keySignature, (keySignatureCounts.get(keySignature) ?? 0) + 1);
@@ -257,6 +266,7 @@ function createTunesStatsPlugin() {
         tuneTypeCount: tuneTypeCounts.size,
         topTuneType,
         topKeySignature,
+        tunes: tunes.sort((a, b) => a.title.localeCompare(b.title)),
         tunesByCategory: Object.fromEntries(
           [...tunesByCategory.entries()].map(([category, tunes]) => [
             category,

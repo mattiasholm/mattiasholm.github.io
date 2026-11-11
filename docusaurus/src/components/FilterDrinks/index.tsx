@@ -3,7 +3,7 @@ import Link from '@docusaurus/Link';
 import { useHistory, useLocation } from '@docusaurus/router';
 import { usePluginData } from '@docusaurus/useGlobalData';
 import { useDocsData } from '@docusaurus/plugin-content-docs/client';
-import styles from './styles.module.css';
+import styles from '../filter.module.css';
 
 export interface Drink {
   id: string;

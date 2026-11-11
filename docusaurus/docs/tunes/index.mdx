@@ -4,6 +4,7 @@ title: Tunes
 
 import DocCardList from '@theme/DocCardList';
 import useGlobalData from '@docusaurus/useGlobalData';
+import { useCurrentSidebarSiblings } from '@docusaurus/plugin-content-docs/client';
 
 export function TunesStats() {
   const stats = useGlobalData()['tunes-stats']?.default;
@@ -36,13 +37,14 @@ export function TunesStats() {
 }
 
 export function TunesCategories() {
+  const items = useCurrentSidebarSiblings();
   const categoryCount = useGlobalData()['tunes-stats']?.default?.categoryCount;
 
   if (!categoryCount) {
     return null;
   }
 
-  return <DocCardList />;
+  return <DocCardList items={items.filter((item) => item.type === 'category')} />;
 }
 
 # Tunes <img src='/img/tunes.png' height='48' className='titleIcon' />
