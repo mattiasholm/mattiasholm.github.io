@@ -85,7 +85,7 @@ export default function FilterDrinks() {
         {filtered.map((drink) => {
           const permalink = paths.get(drink.id);
           if (!permalink) {
-            throw new Error(`Missing recipe URL for ${drink.id}`);
+            throw new Error(`Missing drink URL for ${drink.id}`);
           }
           return (
             <li className={styles.card} key={drink.id}>

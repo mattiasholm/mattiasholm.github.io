@@ -5,10 +5,45 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { Drink } from './src/components/FilterDrinks';
 import type { Tune } from './src/components/FilterTunes';
+import type { Dive } from './src/components/FilterDives';
 
 const interpolate = (template: string, values: Record<string, string>): string => {
   return template.replace(/\{\{(\w+)\}\}/g, (match, key) => values[key] ?? match);
 };
+
+function splitDiveCsvRow(line: string): string[] {
+  const values: string[] = [];
+  let current = '';
+  let bracketDepth = 0;
+
+  for (let i = 0; i < line.length; i += 1) {
+    const ch = line[i];
+    const next = line[i + 1] ?? '';
+
+    if (ch === '[' && next === '[') {
+      bracketDepth += 1;
+      current += ch;
+      continue;
+    }
+
+    if (ch === ']' && next === ']' && bracketDepth > 0) {
+      bracketDepth -= 1;
+      current += ch;
+      continue;
+    }
+
+    if (ch === ',' && bracketDepth === 0) {
+      values.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    current += ch;
+  }
+
+  values.push(current.trim());
+  return values;
+}
 
 function createDrinksStatsPlugin() {
   return {
@@ -329,41 +364,7 @@ function createDivesGeneratorPlugin() {
         }
       }
 
-      const splitRow = (line: string): string[] => {
-        const values: string[] = [];
-        let current = '';
-        let bracketDepth = 0;
-
-        for (let i = 0; i < line.length; i += 1) {
-          const ch = line[i];
-          const next = line[i + 1] ?? '';
-
-          if (ch === '[' && next === '[') {
-            bracketDepth += 1;
-            current += ch;
-            continue;
-          }
-
-          if (ch === ']' && next === ']' && bracketDepth > 0) {
-            bracketDepth -= 1;
-            current += ch;
-            continue;
-          }
-
-          if (ch === ',' && bracketDepth === 0) {
-            values.push(current.trim());
-            current = '';
-            continue;
-          }
-
-          current += ch;
-        }
-
-        values.push(current.trim());
-        return values;
-      };
-
-      const header = splitRow(lines[0]);
+      const header = splitDiveCsvRow(lines[0]);
       const rows = lines.slice(1);
 
       const stripNumber = (value: string): string => {
@@ -382,7 +383,7 @@ function createDivesGeneratorPlugin() {
       rows.forEach((row, idx) => {
         const diveNumber = rows.length - idx;
 
-        const cols = splitRow(row);
+        const cols = splitDiveCsvRow(row);
         const getColumn = (col: string) => cols[header.indexOf(col)] || '';
 
         const date = formatDate(getColumn('Date'));
@@ -422,6 +423,7 @@ function createDivesGeneratorPlugin() {
         }
 
         const markdown = interpolate(template, {
+          SIDEBAR_POSITION: String(idx + 1),
           DIVE_NUMBER: String(diveNumber),
           LATITUDE: lat,
           LONGITUDE: lon,
@@ -457,8 +459,9 @@ function createDivesStatsPlugin() {
         .map((line) => line.trim())
         .filter((line) => line.length > 0);
 
-      const header = lines[0].split(',');
-      const rows = lines.slice(1).map((line) => line.split(','));
+      const header = splitDiveCsvRow(lines[0]);
+      const rows = lines.slice(1).map(splitDiveCsvRow);
+      const dives: Dive[] = [];
 
       let totalMinutes = 0;
       let maxDepth = 0;
@@ -468,8 +471,40 @@ function createDivesStatsPlugin() {
 
       const diveSiteCounts = new Map<string, number>();
       const diveSiteCoordinates = new Map<string, { lat: string; lon: string }>();
+      const stripNumber = (value: string): string => {
+        const match = value.match(/-?\d+(?:\.\d+)?/);
+        return match?.[0] ?? '';
+      };
 
-      for (const row of rows) {
+      for (const [index, row] of rows.entries()) {
+        const getColumn = (name: string) => row[header.indexOf(name)]?.trim() ?? '';
+        const rawDate = getColumn('Date');
+        const dateMatch = rawDate.match(/^(\d{2})\.(\d{2})\.(\d{2})$/);
+        if (!dateMatch) {
+          throw new Error(`Unsupported dive date: ${rawDate}`);
+        }
+        const date = `20${dateMatch[3]}-${dateMatch[2]}-${dateMatch[1]}`;
+        const tankRaw = getColumn('Ballons[[Material,Volume,Gas,Pressure(start-finish)]]');
+        const tankMatch = tankRaw.match(/^\[\[(.*?)\]\]$/);
+        const gasRaw = tankMatch?.[1].split(',')[2]?.trim() ?? '';
+        const nitroxMatch = gasRaw.match(/^Nitrox\s*\((\d+)%?\)$/);
+        const gas = nitroxMatch
+          ? `Nitrox (${nitroxMatch[1]}%)`
+          : gasRaw
+            ? gasRaw.charAt(0).toUpperCase() + gasRaw.slice(1).toLowerCase()
+            : '-';
+        const diveNumber = rows.length - index;
+
+        dives.push({
+          id: `dives/${diveNumber}`,
+          number: diveNumber,
+          date,
+          site: getColumn('Spot title'),
+          depth: stripNumber(getColumn('Deep')),
+          duration: stripNumber(getColumn('Dive length')),
+          gas,
+        });
+
         const depthRaw = row[header.indexOf('Deep')].trim();
         const depth = Number.parseFloat(depthRaw);
         if (Number.isFinite(depth)) {
@@ -533,6 +568,7 @@ function createDivesStatsPlugin() {
         minTemperature: Number.isFinite(minDepthTemperature) ? `${minDepthTemperature} °C` : '-',
         maxTemperature: Number.isFinite(maxSurfaceTemperature) ? `${maxSurfaceTemperature} °C` : '-',
         topDiveSites,
+        dives: dives.sort((a, b) => b.date.localeCompare(a.date) || b.number - a.number),
       };
     },
     async contentLoaded({

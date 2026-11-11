@@ -1,5 +1,5 @@
 ---
-sidebar_position: -{{DIVE_NUMBER}}
+sidebar_position: {{SIDEBAR_POSITION}}
 ---
 
 # #{{DIVE_NUMBER}}
