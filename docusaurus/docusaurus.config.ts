@@ -220,7 +220,7 @@ function createTunesStatsPlugin() {
       const modeCounts = new Map<string, number>();
       const tunesByCategory = new Map<string, Array<{ title: string; url: string; keySignature: string }>>();
       const tunes: Tune[] = [];
-      const csvRows: Array<[string, string, string, string]> = [];
+      const csvRows: Array<[string, string, string]> = [];
       let fileCount = 0;
 
       for (const category of categories) {
@@ -238,7 +238,6 @@ function createTunesStatsPlugin() {
           const title = content.match(/^T:(.+)$/m)![1].trim();
           const tuneTypeRaw = content.match(/^R:(.+)$/m)![1];
           const tuneType = tuneTypeRaw.charAt(0).toUpperCase() + tuneTypeRaw.slice(1);
-          const timeSignature = content.match(/^M:(.+)$/m)![1];
           const keySignature = content.match(/^K:(.+)$/m)![1];
           const mode = getTuneMode(keySignature);
 
@@ -260,13 +259,13 @@ function createTunesStatsPlugin() {
           categoryTunes.push({ title, url, keySignature });
           tunesByCategory.set(category, categoryTunes);
 
-          csvRows.push([title, tuneType, timeSignature, keySignature]);
+          csvRows.push([title, tuneType, keySignature]);
         }
       }
 
       const escapeCsv = (value: string) => /[",\n\r]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
       const csvLines = [
-        'Name,Tune type,Time signature,Key signature',
+        'Name,Tune type,Key signature',
         ...csvRows.map((row) => row.map(escapeCsv).join(',')),
       ];
       fs.writeFileSync(path.join(__dirname, 'static', 'tunes.csv'), csvLines.join('\n'), 'utf8');
