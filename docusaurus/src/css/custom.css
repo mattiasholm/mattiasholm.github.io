@@ -135,6 +135,10 @@ input[type='search']::-webkit-search-cancel-button {
   display: none;
 }
 
+.hidden {
+  display: none;
+}
+
 .boxes {
   display: flex;
   gap: 10px;
@@ -255,8 +259,4 @@ pre[class~='language-abc'] code {
 .keyButton--selected {
   font-weight: bold;
   border-color: var(--ifm-color-primary);
-}
-
-.hidden {
-  display: none;
 }
