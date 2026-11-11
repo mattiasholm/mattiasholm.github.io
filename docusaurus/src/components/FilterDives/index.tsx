@@ -210,20 +210,25 @@ export default function FilterDives() {
           className='button button--secondary'
           disabled={
             !site && !year && !gas
+            && !hasDepthFilter && !hasTimeFilter
             && searchParams.get('minDepth') === null
             && searchParams.get('maxDepth') === null
             && searchParams.get('minTime') === null
             && searchParams.get('maxTime') === null
           }
-          onClick={() => updateFilters({
-            site: '',
-            year: '',
-            gas: '',
-            minDepth: '',
-            maxDepth: '',
-            minTime: '',
-            maxTime: '',
-          })}
+          onClick={() => {
+            setDepthRange([minDepthLimit, maxDepthLimit]);
+            setTimeRange([minTimeLimit, maxTimeLimit]);
+            updateFilters({
+              site: '',
+              year: '',
+              gas: '',
+              minDepth: '',
+              maxDepth: '',
+              minTime: '',
+              maxTime: '',
+            });
+          }}
         >
           Clear filters
         </button>

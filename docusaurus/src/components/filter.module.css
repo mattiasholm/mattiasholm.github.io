@@ -71,6 +71,7 @@
 
 .rangeFilter input[type='range']:disabled {
   --range-color: var(--ifm-color-emphasis-500);
+  background-image: none;
   cursor: not-allowed;
 }
 
