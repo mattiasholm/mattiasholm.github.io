@@ -1,10 +1,22 @@
 # {{CATEGORY_NAME}}
 import useGlobalData from '@docusaurus/useGlobalData';
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory, useLocation } from '@docusaurus/router';
 
 export function KeyFilter({ category }) {
   const stats = useGlobalData()['tunes-stats']?.default;
-  const [selectedKey, setSelectedKey] = useState('All');
+  const history = useHistory();
+  const location = useLocation();
+  const selectedKey = new URLSearchParams(location.search).get('key') ?? 'All';
+  const setSelectedKey = (key) => {
+    const params = new URLSearchParams(location.search);
+    if (key === 'All') {
+      params.delete('key');
+    } else {
+      params.set('key', key);
+    }
+    history.push({ ...location, search: params.toString() });
+  };
 
   if (!stats) {
     return null;
