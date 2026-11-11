@@ -28,9 +28,9 @@ interface RangeFilterProps {
 
 function RangeFilter({ legend, label, min, max, step, value, onChange, onCommit }: RangeFilterProps) {
   const commitMin = (event: React.SyntheticEvent<HTMLInputElement>) =>
-    onCommit([Number(event.currentTarget.value), value[1]]);
+    onCommit([Math.min(Number(event.currentTarget.value), value[1]), value[1]]);
   const commitMax = (event: React.SyntheticEvent<HTMLInputElement>) =>
-    onCommit([value[0], Number(event.currentTarget.value)]);
+    onCommit([value[0], Math.max(Number(event.currentTarget.value), value[0])]);
 
   return (
     <fieldset className={styles.rangeFilter}>
@@ -40,13 +40,13 @@ function RangeFilter({ legend, label, min, max, step, value, onChange, onCommit 
         <input
           type='range'
           min={min}
-          max={value[1]}
+          max={max}
           step={step}
           value={value[0]}
           disabled={value[1] <= min}
-          style={{ backgroundSize: `${value[1] > min ? (value[0] - min) / (value[1] - min) * 100 : 0}% 100%` }}
+          style={{ backgroundSize: `${max > min ? (value[0] - min) / (max - min) * 100 : 0}% 100%` }}
           aria-label={`Minimum ${label}`}
-          onChange={(event) => onChange([Number(event.target.value), value[1]])}
+          onChange={(event) => onChange([Math.min(Number(event.target.value), value[1]), value[1]])}
           onPointerUp={commitMin}
           onKeyUp={commitMin}
         />
@@ -55,14 +55,14 @@ function RangeFilter({ legend, label, min, max, step, value, onChange, onCommit 
         Max: {value[1]}
         <input
           type='range'
-          min={value[0]}
+          min={min}
           max={max}
           step={step}
           value={value[1]}
           disabled={value[0] >= max}
-          style={{ backgroundSize: `${max > value[0] ? (value[1] - value[0]) / (max - value[0]) * 100 : 100}% 100%` }}
+          style={{ backgroundSize: `${max > min ? (value[1] - min) / (max - min) * 100 : 0}% 100%` }}
           aria-label={`Maximum ${label}`}
-          onChange={(event) => onChange([value[0], Number(event.target.value)])}
+          onChange={(event) => onChange([value[0], Math.max(Number(event.target.value), value[0])])}
           onPointerUp={commitMax}
           onKeyUp={commitMax}
         />
