@@ -15,6 +15,62 @@ export interface Dive {
   gas: string;
 }
 
+interface RangeFilterProps {
+  legend: string;
+  label: string;
+  min: number;
+  max: number;
+  step: number;
+  value: [number, number];
+  onChange: (value: [number, number]) => void;
+  onCommit: (value: [number, number]) => void;
+}
+
+function RangeFilter({ legend, label, min, max, step, value, onChange, onCommit }: RangeFilterProps) {
+  const commitMin = (event: React.SyntheticEvent<HTMLInputElement>) =>
+    onCommit([Number(event.currentTarget.value), value[1]]);
+  const commitMax = (event: React.SyntheticEvent<HTMLInputElement>) =>
+    onCommit([value[0], Number(event.currentTarget.value)]);
+
+  return (
+    <fieldset className={styles.rangeFilter}>
+      <legend>{legend}</legend>
+      <label>
+        Min: {value[0]}
+        <input
+          type='range'
+          min={min}
+          max={value[1]}
+          step={step}
+          value={value[0]}
+          disabled={value[1] <= min}
+          style={{ backgroundSize: `${value[1] > min ? (value[0] - min) / (value[1] - min) * 100 : 0}% 100%` }}
+          aria-label={`Minimum ${label}`}
+          onChange={(event) => onChange([Number(event.target.value), value[1]])}
+          onPointerUp={commitMin}
+          onKeyUp={commitMin}
+        />
+      </label>
+      <label>
+        Max: {value[1]}
+        <input
+          type='range'
+          min={value[0]}
+          max={max}
+          step={step}
+          value={value[1]}
+          disabled={value[0] >= max}
+          style={{ backgroundSize: `${max > value[0] ? (value[1] - value[0]) / (max - value[0]) * 100 : 100}% 100%` }}
+          aria-label={`Maximum ${label}`}
+          onChange={(event) => onChange([value[0], Number(event.target.value)])}
+          onPointerUp={commitMax}
+          onKeyUp={commitMax}
+        />
+      </label>
+    </fieldset>
+  );
+}
+
 export default function FilterDives() {
   const { dives } = usePluginData('dives-stats') as { dives: Dive[] };
   const { versions } = useDocsData('default');
@@ -27,7 +83,24 @@ export default function FilterDives() {
   const site = searchParams.get('site') ?? '';
   const year = searchParams.get('year') ?? '';
   const gas = searchParams.get('gas') ?? '';
-  const updateFilters = (filters: Partial<Record<'site' | 'year' | 'gas', string>>) => {
+  const depths = dives.map((dive) => Number.parseFloat(dive.depth)).filter(Number.isFinite);
+  const times = dives.map((dive) => Number.parseFloat(dive.duration)).filter(Number.isFinite);
+  const minDepthLimit = depths.length ? Math.min(...depths) : 0;
+  const maxDepthLimit = depths.length ? Math.max(...depths) : 0;
+  const minTimeLimit = times.length ? Math.min(...times) : 0;
+  const maxTimeLimit = times.length ? Math.max(...times) : 0;
+  const [depthRange, setDepthRange] = React.useState<[number, number]>([
+    Number(searchParams.get('minDepth') || minDepthLimit),
+    Number(searchParams.get('maxDepth') || maxDepthLimit),
+  ]);
+  const [timeRange, setTimeRange] = React.useState<[number, number]>([
+    Number(searchParams.get('minTime') || minTimeLimit),
+    Number(searchParams.get('maxTime') || maxTimeLimit),
+  ]);
+  const updateFilters = (filters: Partial<Record<
+    'site' | 'year' | 'gas' | 'minDepth' | 'maxDepth' | 'minTime' | 'maxTime',
+    string
+  >>) => {
     const params = new URLSearchParams(location.search);
     for (const [key, value] of Object.entries(filters)) {
       if (value) {
@@ -38,16 +111,49 @@ export default function FilterDives() {
     }
     history.push({ ...location, search: params.toString() });
   };
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setDepthRange([
+      Number(params.get('minDepth') || minDepthLimit),
+      Number(params.get('maxDepth') || maxDepthLimit),
+    ]);
+    setTimeRange([
+      Number(params.get('minTime') || minTimeLimit),
+      Number(params.get('maxTime') || maxTimeLimit),
+    ]);
+  }, [location.search, minDepthLimit, maxDepthLimit, minTimeLimit, maxTimeLimit]);
+  const updateRange = (
+    minKey: 'minDepth' | 'minTime',
+    maxKey: 'maxDepth' | 'maxTime',
+    range: [number, number],
+    minLimit: number,
+    maxLimit: number,
+  ) => {
+    updateFilters({
+      [minKey]: range[0] === minLimit ? '' : String(range[0]),
+      [maxKey]: range[1] === maxLimit ? '' : String(range[1]),
+    });
+  };
   const sites = [...new Set(dives.map((dive) => dive.site))].sort();
   const years = [...new Set(dives.map((dive) => dive.date.slice(0, 4)))].sort().reverse();
   const gases = [...new Set(dives
     .map((dive) => dive.gas.startsWith('Nitrox') ? 'Nitrox' : dive.gas)
     .filter((value) => value !== '-'))].sort();
-  const filtered = dives.filter((dive) =>
-    (!site || dive.site === site)
-    && (!year || dive.date.startsWith(`${year}-`))
-    && (!gas || (gas === 'Nitrox' ? dive.gas.startsWith('Nitrox') : dive.gas === gas)),
-  );
+  const hasDepthFilter = depthRange[0] !== minDepthLimit || depthRange[1] !== maxDepthLimit;
+  const hasTimeFilter = timeRange[0] !== minTimeLimit || timeRange[1] !== maxTimeLimit;
+  const filtered = dives.filter((dive) => {
+    const depth = Number.parseFloat(dive.depth);
+    const time = Number.parseFloat(dive.duration);
+    return (!site || dive.site === site)
+      && (!year || dive.date.startsWith(`${year}-`))
+      && (!gas || (gas === 'Nitrox' ? dive.gas.startsWith('Nitrox') : dive.gas === gas))
+      && (!hasDepthFilter || (
+        Number.isFinite(depth) && depth >= depthRange[0] && depth <= depthRange[1]
+      ))
+      && (!hasTimeFilter || (
+        Number.isFinite(time) && time >= timeRange[0] && time <= timeRange[1]
+      ));
+  });
 
   return (
     <div>
@@ -73,11 +179,51 @@ export default function FilterDives() {
             {gases.map((value) => <option key={value}>{value}</option>)}
           </select>
         </label>
+        <div className={styles.rangeFilters}>
+          <RangeFilter
+            legend='Depth (m)'
+            label='depth'
+            min={minDepthLimit}
+            max={maxDepthLimit}
+            step={0.1}
+            value={depthRange}
+            onChange={setDepthRange}
+            onCommit={(range) => updateRange(
+              'minDepth', 'maxDepth', range, minDepthLimit, maxDepthLimit,
+            )}
+          />
+          <RangeFilter
+            legend='Time (min)'
+            label='dive time'
+            min={minTimeLimit}
+            max={maxTimeLimit}
+            step={1}
+            value={timeRange}
+            onChange={setTimeRange}
+            onCommit={(range) => updateRange(
+              'minTime', 'maxTime', range, minTimeLimit, maxTimeLimit,
+            )}
+          />
+        </div>
         <button
           type='button'
           className='button button--secondary'
-          disabled={!site && !year && !gas}
-          onClick={() => updateFilters({ site: '', year: '', gas: '' })}
+          disabled={
+            !site && !year && !gas
+            && searchParams.get('minDepth') === null
+            && searchParams.get('maxDepth') === null
+            && searchParams.get('minTime') === null
+            && searchParams.get('maxTime') === null
+          }
+          onClick={() => updateFilters({
+            site: '',
+            year: '',
+            gas: '',
+            minDepth: '',
+            maxDepth: '',
+            minTime: '',
+            maxTime: '',
+          })}
         >
           Clear filters
         </button>
