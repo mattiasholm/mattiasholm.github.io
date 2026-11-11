@@ -246,6 +246,7 @@ function createTunesStatsPlugin() {
             tuneType,
             keySignature,
             mode: getTuneMode(keySignature),
+            tonic: keySignature.trim().replace(/(?:dor|mix|m)$/, ''),
           });
 
           tuneTypeCounts.set(tuneType, (tuneTypeCounts.get(tuneType) ?? 0) + 1);

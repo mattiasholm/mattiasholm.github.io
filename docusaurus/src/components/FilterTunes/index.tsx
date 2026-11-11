@@ -11,6 +11,7 @@ export interface Tune {
   tuneType: string;
   keySignature: string;
   mode: string;
+  tonic: string;
 }
 
 export default function FilterTunes() {
@@ -23,9 +24,9 @@ export default function FilterTunes() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const tuneType = searchParams.get('type') ?? '';
-  const keySignature = searchParams.get('key') ?? '';
+  const tonic = searchParams.get('tonic') ?? '';
   const mode = searchParams.get('mode') ?? '';
-  const updateFilters = (filters: Partial<Record<'type' | 'key' | 'mode', string>>) => {
+  const updateFilters = (filters: Partial<Record<'type' | 'key' | 'tonic' | 'mode', string>>) => {
     const params = new URLSearchParams(location.search);
     for (const [key, value] of Object.entries(filters)) {
       if (value) {
@@ -37,11 +38,11 @@ export default function FilterTunes() {
     history.push({ ...location, search: params.toString() });
   };
   const tuneTypes = [...new Set(tunes.map((tune) => tune.tuneType))].sort();
-  const keys = [...new Set(tunes.map((tune) => tune.keySignature))].sort();
+  const tonics = [...new Set(tunes.map((tune) => tune.tonic))].sort();
   const modes = [...new Set(tunes.map((tune) => tune.mode))].sort();
   const filtered = tunes.filter((tune) =>
     (!tuneType || tune.tuneType === tuneType)
-    && (!keySignature || tune.keySignature === keySignature)
+    && (!tonic || tune.tonic === tonic)
     && (!mode || tune.mode === mode),
   );
 
@@ -56,10 +57,10 @@ export default function FilterTunes() {
           </select>
         </label>
         <label>
-          Key signature
-          <select value={keySignature} onChange={(event) => updateFilters({ key: event.target.value })}>
-            <option value=''>All key signatures</option>
-            {keys.map((value) => <option key={value}>{value}</option>)}
+          Tonic
+          <select value={tonic} onChange={(event) => updateFilters({ tonic: event.target.value, key: '' })}>
+            <option value=''>All tonics</option>
+            {tonics.map((value) => <option key={value}>{value}</option>)}
           </select>
         </label>
         <label>
@@ -72,8 +73,8 @@ export default function FilterTunes() {
         <button
           type='button'
           className='button button--secondary'
-          disabled={!tuneType && !keySignature && !mode}
-          onClick={() => updateFilters({ type: '', key: '', mode: '' })}
+          disabled={!tuneType && !tonic && !mode}
+          onClick={() => updateFilters({ type: '', key: '', tonic: '', mode: '' })}
         >
           Clear filters
         </button>
